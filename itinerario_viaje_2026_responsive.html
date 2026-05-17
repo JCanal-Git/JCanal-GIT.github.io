@@ -1,0 +1,1710 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Itinerario NYC + Miami 2026</title>
+  <style>
+    :root {
+      --bg: #f7f3eb;
+      --paper: #fffdf8;
+      --ink: #1f2933;
+      --muted: #667085;
+      --line: #ddd5c8;
+      --soft: #f0ebe2;
+      --teal: #0f766e;
+      --teal-dark: #073b37;
+      --blue: #cbe0f4;
+      --blue-ink: #16446f;
+      --green: #d8edbf;
+      --green-ink: #31570d;
+      --amber: #ffe3a8;
+      --amber-ink: #6b4706;
+      --rose: #f7cbd6;
+      --rose-ink: #762a43;
+      --violet: #d8d3f8;
+      --violet-ink: #44378e;
+      --shadow: 0 14px 34px rgba(38, 31, 22, 0.10);
+      color-scheme: light;
+    }
+
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      margin: 0;
+      min-height: 100vh;
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      color: var(--ink);
+      background: linear-gradient(180deg, #eef6f3 0, var(--bg) 360px);
+      line-height: 1.5;
+    }
+    a { color: inherit; }
+    .page { width: min(1120px, 100%); margin: 0 auto; padding: 22px 14px 54px; }
+    .hero { display: grid; gap: 18px; padding: 18px 0 16px; }
+    .eyebrow { margin: 0 0 8px; color: var(--teal-dark); font-size: 0.78rem; font-weight: 800; letter-spacing: 0; text-transform: uppercase; }
+    h1 { margin: 0; max-width: 13ch; font-size: 2.75rem; line-height: 0.96; letter-spacing: 0; }
+    .hero p { max-width: 42rem; margin: 12px 0 0; color: #465560; }
+    .stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; }
+    .stat { min-height: 72px; padding: 12px; border: 1px solid rgba(15,118,110,0.24); border-radius: 8px; background: rgba(255,253,248,0.78); box-shadow: 0 8px 20px rgba(38,31,22,0.06); }
+    .stat strong { display: block; font-size: 1.35rem; line-height: 1; }
+    .stat span { display: block; margin-top: 7px; color: var(--muted); font-size: 0.78rem; font-weight: 800; letter-spacing: 0; text-transform: uppercase; }
+    .nav { position: sticky; top: 0; z-index: 10; display: flex; gap: 8px; margin: 4px -14px 16px; padding: 10px 14px; overflow-x: auto; background: rgba(247,243,235,0.92); border-block: 1px solid rgba(221,213,200,0.78); backdrop-filter: blur(14px); scrollbar-width: none; }
+    .nav::-webkit-scrollbar { display: none; }
+    .nav a { flex: 0 0 auto; min-height: 38px; min-width: 46px; display: inline-flex; align-items: center; justify-content: center; padding: 0 12px; border: 1px solid var(--line); border-radius: 999px; background: var(--paper); font-size: 0.88rem; font-weight: 850; text-decoration: none; box-shadow: 0 6px 16px rgba(38,31,22,0.06); }
+    .legend { display: flex; flex-wrap: wrap; gap: 8px; margin: 0 0 16px; }
+    .tag, .mini { display: inline-flex; align-items: center; min-height: 24px; padding: 3px 8px; border-radius: 999px; font-size: 0.73rem; font-weight: 850; line-height: 1; white-space: nowrap; }
+    .tag-p1, .mini.p1 { background: var(--blue); color: var(--blue-ink); }
+    .tag-p2 { background: var(--green); color: var(--green-ink); }
+    .tag-p3, .tag-optional, .mini.optional { background: var(--amber); color: var(--amber-ink); }
+    .tag-pass, .mini.pass { background: var(--violet); color: var(--violet-ink); }
+    .tag-cost { background: #e8ecef; color: #344054; }
+    .days { display: grid; gap: 12px; }
+    .day-card { border: 1px solid var(--line); border-radius: 8px; background: var(--paper); box-shadow: var(--shadow); overflow: clip; }
+    summary { list-style: none; cursor: pointer; display: grid; grid-template-columns: auto 1fr auto auto; gap: 10px; align-items: center; padding: 14px; background: linear-gradient(90deg, var(--day-soft), transparent); }
+    summary::-webkit-details-marker { display: none; }
+    .day-num { width: 42px; height: 42px; display: grid; place-items: center; border-radius: 50%; background: var(--day); color: var(--day-ink); font-weight: 900; }
+    .day-title { min-width: 0; }
+    .day-title strong { display: block; font-size: 1rem; line-height: 1.2; }
+    .day-title small { display: block; margin-top: 4px; color: var(--muted); font-size: 0.82rem; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+    .day-badges { display: none; gap: 6px; flex-wrap: wrap; justify-content: flex-end; }
+    .chevron { width: 30px; height: 30px; display: grid; place-items: center; border: 1px solid rgba(31,41,51,0.12); border-radius: 50%; color: var(--muted); transition: transform 0.18s ease; }
+    details[open] .chevron { transform: rotate(180deg); }
+    .day-body { padding: 6px 14px 16px; }
+    .slot { padding: 12px 0 2px; border-top: 1px solid rgba(221,213,200,0.72); }
+    .slot:first-child { border-top: 0; }
+    .slot h3 { margin: 0 0 10px; color: var(--teal-dark); font-size: 0.82rem; font-weight: 900; letter-spacing: 0; text-transform: uppercase; }
+    ol { list-style: none; margin: 0; padding: 0; display: grid; gap: 10px; counter-reset: item; }
+    li { counter-increment: item; display: grid; grid-template-columns: 26px 1fr; gap: 8px; align-items: start; padding-bottom: 10px; border-bottom: 1px solid rgba(221,213,200,0.48); }
+    li:last-child { border-bottom: 0; padding-bottom: 0; }
+    li::before { content: counter(item); width: 26px; height: 26px; display: grid; place-items: center; border-radius: 50%; background: var(--soft); color: var(--muted); font-size: 0.74rem; font-weight: 900; }
+    .item-main { min-width: 0; display: flex; flex-wrap: wrap; gap: 7px; align-items: center; }
+    .item-main a { font-weight: 800; text-decoration-thickness: 1px; text-underline-offset: 3px; }
+    .tags { display: inline-flex; flex-wrap: wrap; gap: 5px; }
+    .meta, .details { grid-column: 2; margin: 3px 0 0; font-size: 0.84rem; }
+    .meta { color: var(--muted); }
+    .details { color: #40505c; }
+    .is-optional .item-main a { color: #6f4b07; }
+    .day-1 { --day: #cbe0f4; --day-soft: #edf6ff; --day-ink: #16446f; }
+    .day-2 { --day: #d8edbf; --day-soft: #f2f8ea; --day-ink: #31570d; }
+    .day-3 { --day: #f7cbd6; --day-soft: #fff0f4; --day-ink: #762a43; }
+    .day-4 { --day: #b9eadf; --day-soft: #ebfbf7; --day-ink: #0a5144; }
+    .day-5 { --day: #d8d3f8; --day-soft: #f3f1ff; --day-ink: #44378e; }
+    .day-6 { --day: #ffe3a8; --day-soft: #fff6e3; --day-ink: #6b4706; }
+    .footer { margin-top: 22px; color: var(--muted); font-size: 0.82rem; text-align: center; }
+    @media (min-width: 760px) {
+      .page { padding: 34px 24px 70px; }
+      .hero { grid-template-columns: 1fr 0.9fr; align-items: end; min-height: 230px; }
+      h1 { font-size: 4.9rem; }
+      .nav { margin-inline: -24px; padding-inline: 24px; justify-content: center; }
+      .day-badges { display: flex; }
+      .day-body { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 0 22px; padding-inline: 18px; }
+      .slot { border-top: 1px solid rgba(221,213,200,0.72); }
+    }
+  </style>
+</head>
+<body>
+  <main class="page">
+    <header class="hero">
+      <div>
+        <p class="eyebrow">Plan de viaje</p>
+        <h1>NYC + Miami 2026</h1>
+        <p>Agenda móvil generada desde el Excel madre. Incluye prioridades P1/P2/P3, marca NYC Pass y avisa de planes opcionales.</p>
+      </div>
+      <div class="stats">
+        <div class="stat"><strong>13</strong><span>días</span></div>
+        <div class="stat"><strong>137</strong><span>paradas</span></div>
+        <div class="stat"><strong>17</strong><span>NYC Pass</span></div>
+      </div>
+    </header>
+    <nav class="nav" aria-label="Ir a un día">
+      <a href="#dia-1">Día 1</a><a href="#dia-2">Día 2</a><a href="#dia-3">Día 3</a><a href="#dia-4">Día 4</a><a href="#dia-5">Día 5</a><a href="#dia-6">Día 6</a><a href="#dia-7">Día 7</a><a href="#dia-8">Día 8</a><a href="#dia-9">Día 9</a><a href="#dia-10">Día 10</a><a href="#dia-11">Día 11</a><a href="#dia-12">Día 12</a><a href="#dia-13">Día 13</a>
+    </nav>
+    <div class="legend" aria-label="Leyenda">
+      <span class="tag tag-p1">P1 imprescindible</span>
+      <span class="tag tag-p2">P2 recomendable</span>
+      <span class="tag tag-p3">P3 / muy opcional</span>
+      <span class="tag tag-pass">NYC Pass</span>
+      <span class="tag tag-optional">Opcional</span>
+    </div>
+    <section class="days" aria-label="Itinerario por días">
+      
+    <details class="day-card day-1" id="dia-1" open>
+      <summary>
+        <span class="day-num">1</span>
+        <span class="day-title">
+          <strong>Día 1 - Viaje a NYC</strong>
+          <small>Jueves · 21 may · N/A · Midtown</small>
+        </span>
+        <span class="day-badges">
+          
+          
+          
+        </span>
+        <span class="chevron">⌄</span>
+      </summary>
+      <div class="day-body">
+        
+    <section class="slot slot-manana">
+      <h3>MAÑANA</h3>
+      <ol>
+    <li class="">
+      <div class="item-main">
+        <a href="https://www.google.com/maps/search/?api=1&amp;query=Camino%20a%20el%20Aeropuerto%20N%2FA" target="_blank" rel="noopener">Camino a el Aeropuerto</a>
+        <span class="tags"><span class="tag tag-n/a">N/A</span><span class="tag tag-cost">N/A</span></span>
+      </div>
+      <p class="meta">Viaje · N/A</p>
+      <p class="details">Transporte Ir hacia el aeropuerto para coger vuelo</p>
+    </li></ol>
+    </section>
+    <section class="slot slot-comida">
+      <h3>COMIDA</h3>
+      <ol>
+    <li class="">
+      <div class="item-main">
+        <a href="https://www.google.com/maps/search/?api=1&amp;query=Comida%20en%20Sala%20VIP%20Aeropuerto%20New%20York" target="_blank" rel="noopener">Comida en Sala VIP Aeropuerto</a>
+        <span class="tags"></span>
+      </div>
+      
+      
+    </li></ol>
+    </section>
+    <section class="slot slot-tarde">
+      <h3>TARDE</h3>
+      <ol>
+    <li class="">
+      <div class="item-main">
+        <a href="https://www.google.com/maps/search/?api=1&amp;query=Vuelo%20Ida%20Madrid%20-%20NYC%20(JFK)%20N%2FA" target="_blank" rel="noopener">Vuelo Ida Madrid - NYC (JFK)</a>
+        <span class="tags"><span class="tag tag-n/a">N/A</span><span class="tag tag-cost">N/A</span></span>
+      </div>
+      <p class="meta">Vuelo · N/A</p>
+      <p class="details">Vuelo Coger vuelo hacia NYC (Salida de vuelo a las 16:20h)</p>
+    </li>
+    <li class="">
+      <div class="item-main">
+        <a href="https://www.google.com/maps/search/?api=1&amp;query=Llegada%20a%20JFK%20-%20NYC%20N%2FA" target="_blank" rel="noopener">Llegada a JFK - NYC</a>
+        <span class="tags"><span class="tag tag-n/a">N/A</span><span class="tag tag-cost">N/A</span></span>
+      </div>
+      <p class="meta">Aeropuerto · N/A</p>
+      <p class="details">Aeropuerto Llegada estimada a JFK 19:00h</p>
+    </li>
+    <li class="">
+      <div class="item-main">
+        <a href="https://www.google.com/maps/search/?api=1&amp;query=Check-In%20Hotel%20N%2FA" target="_blank" rel="noopener">Check-In Hotel</a>
+        <span class="tags"><span class="tag tag-n/a">N/A</span><span class="tag tag-cost">N/A</span></span>
+      </div>
+      <p class="meta">Hotel · N/A</p>
+      <p class="details">Hotel</p>
+    </li>
+    <li class="">
+      <div class="item-main">
+        <a href="https://www.google.com/maps/search/?api=1&amp;query=Dar%20una%20vuelta%20por%20el%20centro%20Midtown" target="_blank" rel="noopener">Dar una vuelta por el centro</a>
+        <span class="tags"><span class="tag tag-p2">P2</span><span class="tag tag-cost">Gratis</span></span>
+      </div>
+      <p class="meta">Paseo · Midtown</p>
+      <p class="details">Dar una vuelta - Dia de llegada</p>
+    </li></ol>
+    </section>
+    <section class="slot slot-cena">
+      <h3>CENA</h3>
+      <ol>
+    <li class="">
+      <div class="item-main">
+        <a href="https://www.google.com/maps/search/?api=1&amp;query=Cena%20Improvisada%20(Pizza%20Slice%2C%20etc..)%20New%20York" target="_blank" rel="noopener">Cena Improvisada (Pizza Slice, etc..)</a>
+        <span class="tags"></span>
+      </div>
+      
+      
+    </li>
+    <li class="">
+      <div class="item-main">
+        <a href="https://www.google.com/maps/search/?api=1&amp;query=Joe&#39;s%20Pizza%20Broadway%20New%20York" target="_blank" rel="noopener">Joe&#39;s Pizza Broadway</a>
+        <span class="tags"></span>
+      </div>
+      
+      
+    </li></ol>
+    </section>
+    <section class="slot slot-noche">
+      <h3>NOCHE</h3>
+      <ol>
+    <li class="">
+      <div class="item-main">
+        <a href="https://www.google.com/maps/search/?api=1&amp;query=Dar%20una%20vuelta%20por%20el%20centro%20Midtown" target="_blank" rel="noopener">Dar una vuelta por el centro</a>
+        <span class="tags"><span class="tag tag-p2">P2</span><span class="tag tag-cost">Gratis</span></span>
+      </div>
+      <p class="meta">Paseo · Midtown</p>
+      <p class="details">Dar una vuelta - Dia de llegada</p>
+    </li></ol>
+    </section>
+    <section class="slot slot-noche-(alojamiento)">
+      <h3>Noche (Alojamiento)</h3>
+      <ol>
+    <li class="">
+      <div class="item-main">
+        <a href="https://www.google.com/maps/search/?api=1&amp;query=Sheraton%20Lincoln%20Harbor%20Hotel%20%2F%20500%20Harbor%20Boulevard%2C%20Weehawken%2C%20NJ%2007086%20%2C%20Estados%20Unidos%20New%20York" target="_blank" rel="noopener">Sheraton Lincoln Harbor Hotel / 500 Harbor Boulevard, Weehawken, NJ 07086 , Estados Unidos</a>
+        <span class="tags"></span>
+      </div>
+      
+      
+    </li></ol>
+    </section>
+      </div>
+    </details>
+    <details class="day-card day-2" id="dia-2" >
+      <summary>
+        <span class="day-num">2</span>
+        <span class="day-title">
+          <strong>Día 2 - NYC</strong>
+          <small>Viernes · 22 may · Midtown West / 7th Avenue · Uptown Route</small>
+        </span>
+        <span class="day-badges">
+          <span class="mini p1">8 P1</span>
+          <span class="mini pass">4 Pass</span>
+          
+        </span>
+        <span class="chevron">⌄</span>
+      </summary>
+      <div class="day-body">
+        
+    <section class="slot slot-desayuno">
+      <h3>DESAYUNO</h3>
+      <ol>
+    <li class="">
+      <div class="item-main">
+        <a href="https://www.google.com/maps/search/?api=1&amp;query=Liberty%20Bagels%20Midtown%20New%20York" target="_blank" rel="noopener">Liberty Bagels Midtown</a>
+        <span class="tags"></span>
+      </div>
+      
+      
+    </li>
+    <li class="">
+      <div class="item-main">
+        <a href="https://www.google.com/maps/search/?api=1&amp;query=Matto%20Espresso%20New%20York" target="_blank" rel="noopener">Matto Espresso</a>
+        <span class="tags"></span>
+      </div>
+      
+      
+    </li>
+    <li class="">
+      <div class="item-main">
+        <a href="https://www.google.com/maps/search/?api=1&amp;query=Apollo%20Bagels%20New%20York" target="_blank" rel="noopener">Apollo Bagels</a>
+        <span class="tags"></span>
+      </div>
+      
+      
+    </li></ol>
+    </section>
+    <section class="slot slot-manana">
+      <h3>MAÑANA</h3>
+      <ol>
+    <li class="">
+      <div class="item-main">
+        <a href="https://www.google.com/maps/search/?api=1&amp;query=Hope%20Sculpture%20%2F%20Parada%20Inicial%20Hop%20On%26Off%20Bus%20(Uptown)%20Midtown%20West%20%2F%207th%20Avenue" target="_blank" rel="noopener">Hope Sculpture / Parada Inicial Hop On&amp;Off Bus (Uptown)</a>
+        <span class="tags"><span class="tag tag-p2">P2</span><span class="tag tag-pass">NYC Pass</span></span>
+      </div>
+      <p class="meta">Paseo Bus · Midtown West / 7th Avenue</p>
+      <p class="details">Paseo bus turistico Acceso ilimitado durante 2 días consecutivos a Big Bus New York.
+- Horas disponibles: 09:00 - 16:30 - Último acceso a las 16:30</p>
+    </li>
+    <li class="">
+      <div class="item-main">
+        <a href="https://www.google.com/maps/search/?api=1&amp;query=Hop%20On%26Off%20Bus%20(Uptown)%20%2F%20Uptown%20Route" target="_blank" rel="noopener">Hop On&amp;Off Bus (Uptown) /</a>
+        <span class="tags"><span class="tag tag-p2">P2</span><span class="tag tag-pass">NYC Pass</span></span>
+      </div>
+      <p class="meta">Paseo Bus · Uptown Route</p>
+      <p class="details">Paseo bus turistico Acceso ilimitado durante 2 días consecutivos a Big Bus New York.
+- Horas disponibles: 10:00 - 16:00 - Último acceso a las 16:00
+- Salida del recorrido en Hope Sculpture - Llegada en Carnegie Hall</p>
+    </li>
+    <li class="">
+      <div class="item-main">
+        <a href="https://www.google.com/maps/search/?api=1&amp;query=Carnegie%20Hall%20%2F%20Parada%20Final%20Hop%20On%26Off%20Bus%20(Uptown)%20Midtown%20West%20%2F%20Carnegie%20Hall" target="_blank" rel="noopener">Carnegie Hall / Parada Final Hop On&amp;Off Bus (Uptown)</a>
+        <span class="tags"><span class="tag tag-p2">P2</span><span class="tag tag-pass">NYC Pass</span></span>
+      </div>
+      <p class="meta">Paseo Bus · Midtown West / Carnegie Hall</p>
+      <p class="details">Paseo bus turistico Acceso ilimitado durante 2 días consecutivos a Big Bus New York.
+- Horas disponibles: 09:00 - 16:30 - Último acceso a las 16:30</p>
+    </li>
+    <li class="">
+      <div class="item-main">
+        <a href="https://www.google.com/maps/search/?api=1&amp;query=St.%20Patrick&#39;s%20Cathedral%20Fifth%20Avenue%20%2F%20Rockefeller%20Center" target="_blank" rel="noopener">St. Patrick&#39;s Cathedral</a>
+        <span class="tags"><span class="tag tag-p1">P1</span><span class="tag tag-cost">Gratis</span></span>
+      </div>
+      <p class="meta">Catedral · Fifth Avenue / Rockefeller Center</p>
+      <p class="details">Contraste brutal entre rascacielos</p>
+    </li>
+    <li class="">
+      <div class="item-main">
+        <a href="https://www.google.com/maps/search/?api=1&amp;query=Radio%20City%20Music%20Hall%20Rockefeller%20Center" target="_blank" rel="noopener">Radio City Music Hall</a>
+        <span class="tags"><span class="tag tag-p1">P1</span><span class="tag tag-cost">Gratis</span></span>
+      </div>
+      <p class="meta">Edificio · Rockefeller Center</p>
+      <p class="details">Ver la mítica fachada</p>
+    </li>
+    <li class="">
+      <div class="item-main">
+        <a href="https://www.google.com/maps/search/?api=1&amp;query=Tuneles%20de%20Rockefeller%20Rockefeller%20Center" target="_blank" rel="noopener">Tuneles de Rockefeller</a>
+        <span class="tags"><span class="tag tag-p2">P2</span><span class="tag tag-cost">Gratis</span></span>
+      </div>
+      <p class="meta">Paseo · Rockefeller Center</p>
+      <p class="details">Tuneles Secretos (Ciudad subterranea)</p>
+    </li>
+    <li class="">
+      <div class="item-main">
+        <a href="https://www.google.com/maps/search/?api=1&amp;query=Paseo%20por%205th%20Avenue%20Fifth%20Avenue%20%2F%20Midtown" target="_blank" rel="noopener">Paseo por 5th Avenue</a>
+        <span class="tags"><span class="tag tag-p1">P1</span><span class="tag tag-cost">Gratis</span></span>
+      </div>
+      <p class="meta">Paseo · Fifth Avenue / Midtown</p>
+      <p class="details">Paseo por avenida mítica</p>
+    </li></ol>
+    </section>
+    <section class="slot slot-comida">
+      <h3>COMIDA</h3>
+      <ol>
+    <li class="">
+      <div class="item-main">
+        <a href="https://www.google.com/maps/search/?api=1&amp;query=Whole%20Foods%20Market%20(Bryant%20Park)%20New%20York" target="_blank" rel="noopener">Whole Foods Market (Bryant Park)</a>
+        <span class="tags"></span>
+      </div>
+      
+      
+    </li>
+    <li class="">
+      <div class="item-main">
+        <a href="https://www.google.com/maps/search/?api=1&amp;query=7th%20Street%20Burger%20New%20York" target="_blank" rel="noopener">7th Street Burger</a>
+        <span class="tags"></span>
+      </div>
+      
+      
+    </li></ol>
+    </section>
+    <section class="slot slot-tarde">
+      <h3>TARDE</h3>
+      <ol>
+    <li class="">
+      <div class="item-main">
+        <a href="https://www.google.com/maps/search/?api=1&amp;query=Bryant%20Park%20Bryant%20Park" target="_blank" rel="noopener">Bryant Park</a>
+        <span class="tags"><span class="tag tag-p1">P1</span><span class="tag tag-cost">Gratis</span></span>
+      </div>
+      <p class="meta">Parque · Bryant Park</p>
+      <p class="details">Ambiente neoyorquino muy auténtico</p>
+    </li>
+    <li class="">
+      <div class="item-main">
+        <a href="https://www.google.com/maps/search/?api=1&amp;query=New%20York%20Public%20Library%20Bryant%20Park%20%2F%20Fifth%20Avenue" target="_blank" rel="noopener">New York Public Library</a>
+        <span class="tags"><span class="tag tag-p1">P1</span><span class="tag tag-cost">Gratis</span></span>
+      </div>
+      <p class="meta">Biblioteca · Bryant Park / Fifth Avenue</p>
+      <p class="details">Interior clásico y cinematográfico</p>
+    </li>
+    <li class="">
+      <div class="item-main">
+        <a href="https://www.google.com/maps/search/?api=1&amp;query=Grand%20Central%20Terminal%20Midtown%20East%20%2F%20Grand%20Central" target="_blank" rel="noopener">Grand Central Terminal</a>
+        <span class="tags"><span class="tag tag-p1">P1</span><span class="tag tag-cost">Gratis</span></span>
+      </div>
+      <p class="meta">Estación histórica · Midtown East / Grand Central</p>
+      <p class="details">Interior espectacular</p>
+    </li>
+    <li class="">
+      <div class="item-main">
+        <a href="https://www.google.com/maps/search/?api=1&amp;query=Chrysler%20Building%20Midtown%20East%20%2F%20Grand%20Central" target="_blank" rel="noopener">Chrysler Building</a>
+        <span class="tags"><span class="tag tag-p2">P2</span><span class="tag tag-cost">Gratis</span></span>
+      </div>
+      <p class="meta">Edificio · Midtown East / Grand Central</p>
+      <p class="details">Rascacielos de los años 30 que una vez fue el edificio más alto del mundo</p>
+    </li>
+    <li class="">
+      <div class="item-main">
+        <a href="https://www.google.com/maps/search/?api=1&amp;query=Empire%20State%20Building%20(Mirador)%20%2F%20Midtown%20South%20%2F%20Herald%20Square" target="_blank" rel="noopener">Empire State Building (Mirador) /</a>
+        <span class="tags"><span class="tag tag-p1">P1</span><span class="tag tag-pass">NYC Pass</span></span>
+      </div>
+      <p class="meta">Observation Deck · Midtown South / Herald Square</p>
+      <p class="details">Vistas clásicas de Manhattan</p>
+    </li></ol>
+    </section>
+    <section class="slot slot-cena">
+      <h3>CENA</h3>
+      <ol>
+    <li class="">
+      <div class="item-main">
+        <a href="https://www.google.com/maps/search/?api=1&amp;query=Skinny%20Louie%20New%20York" target="_blank" rel="noopener">Skinny Louie</a>
+        <span class="tags"></span>
+      </div>
+      
+      
+    </li>
+    <li class="">
+      <div class="item-main">
+        <a href="https://www.google.com/maps/search/?api=1&amp;query=The%20Smith%20New%20York" target="_blank" rel="noopener">The Smith</a>
+        <span class="tags"></span>
+      </div>
+      
+      
+    </li></ol>
+    </section>
+    <section class="slot slot-noche">
+      <h3>NOCHE</h3>
+      <ol>
+    <li class="">
+      <div class="item-main">
+        <a href="https://www.google.com/maps/search/?api=1&amp;query=Flatiron%20Building%20Flatiron%20District" target="_blank" rel="noopener">Flatiron Building</a>
+        <span class="tags"><span class="tag tag-p1">P1</span><span class="tag tag-cost">Gratis</span></span>
+      </div>
+      <p class="meta">Edificio histórico · Flatiron District</p>
+      <p class="details">Uno de los edificios más reconocibles</p>
+    </li></ol>
+    </section>
+    <section class="slot slot-noche-(alojamiento)">
+      <h3>Noche (Alojamiento)</h3>
+      <ol>
+    <li class="">
+      <div class="item-main">
+        <a href="https://www.google.com/maps/search/?api=1&amp;query=Sheraton%20Lincoln%20Harbor%20Hotel%20%2F%20500%20Harbor%20Boulevard%2C%20Weehawken%2C%20NJ%2007086%20%2C%20Estados%20Unidos%20New%20York" target="_blank" rel="noopener">Sheraton Lincoln Harbor Hotel / 500 Harbor Boulevard, Weehawken, NJ 07086 , Estados Unidos</a>
+        <span class="tags"></span>
+      </div>
+      
+      
+    </li></ol>
+    </section>
+      </div>
+    </details>
+    <details class="day-card day-3" id="dia-3" >
+      <summary>
+        <span class="day-num">3</span>
+        <span class="day-title">
+          <strong>Día 3 - NYC</strong>
+          <small>Sábado · 23 may · Times Square / Theater District · Downtown Route</small>
+        </span>
+        <span class="day-badges">
+          <span class="mini p1">9 P1</span>
+          <span class="mini pass">7 Pass</span>
+          <span class="mini optional">4 opc.</span>
+        </span>
+        <span class="chevron">⌄</span>
+      </summary>
+      <div class="day-body">
+        
+    <section class="slot slot-desayuno">
+      <h3>DESAYUNO</h3>
+      <ol>
+    <li class="">
+      <div class="item-main">
+        <a href="https://www.google.com/maps/search/?api=1&amp;query=Liberty%20Bagels%20Midtown%20New%20York" target="_blank" rel="noopener">Liberty Bagels Midtown</a>
+        <span class="tags"></span>
+      </div>
+      
+      
+    </li>
+    <li class="">
+      <div class="item-main">
+        <a href="https://www.google.com/maps/search/?api=1&amp;query=Matto%20Espresso%20New%20York" target="_blank" rel="noopener">Matto Espresso</a>
+        <span class="tags"></span>
+      </div>
+      
+      
+    </li>
+    <li class="">
+      <div class="item-main">
+        <a href="https://www.google.com/maps/search/?api=1&amp;query=Apollo%20Bagels%20New%20York" target="_blank" rel="noopener">Apollo Bagels</a>
+        <span class="tags"></span>
+      </div>
+      
+      
+    </li></ol>
+    </section>
+    <section class="slot slot-manana">
+      <h3>MAÑANA</h3>
+      <ol>
+    <li class="">
+      <div class="item-main">
+        <a href="https://www.google.com/maps/search/?api=1&amp;query=M%26M&#39;s%20World%20%2F%20Parada%20Inicial%20Hop%20On%26Off%20Bus%20(Downtown)%20Times%20Square%20%2F%20Theater%20District" target="_blank" rel="noopener">M&amp;M&#39;s World / Parada Inicial Hop On&amp;Off Bus (Downtown)</a>
+        <span class="tags"><span class="tag tag-p2">P2</span><span class="tag tag-pass">NYC Pass</span></span>
+      </div>
+      <p class="meta">Paseo Bus · Times Square / Theater District</p>
+      <p class="details">Paseo bus turistico Acceso ilimitado durante 2 días consecutivos a Big Bus New York.
+- Horas disponibles: 09:00 - 16:30 - Último acceso a las 16:30</p>
+    </li>
+    <li class="">
+      <div class="item-main">
+        <a href="https://www.google.com/maps/search/?api=1&amp;query=Hop%20On%26Off%20Bus%20(Downtown)%20%2F%20Downtown%20Route" target="_blank" rel="noopener">Hop On&amp;Off Bus (Downtown) /</a>
+        <span class="tags"><span class="tag tag-p2">P2</span><span class="tag tag-pass">NYC Pass</span></span>
+      </div>
+      <p class="meta">Paseo Bus · Downtown Route</p>
+      <p class="details">Paseo bus turistico Acceso ilimitado durante 2 días consecutivos a Big Bus New York.
+- Horas disponibles: 09:00 - 16:30 - Último acceso a las 16:30</p>
+    </li>
+    <li class="">
+      <div class="item-main">
+        <a href="https://www.google.com/maps/search/?api=1&amp;query=Wall%20Street%20%2F%20Statue%20of%20Liberty%20%2F%20Parada%208%20Hop%20On%26Off%20Bus%20(Downtown)%20Financial%20District%20%2F%20Battery%20Park" target="_blank" rel="noopener">Wall Street / Statue of Liberty / Parada 8 Hop On&amp;Off Bus (Downtown)</a>
+        <span class="tags"><span class="tag tag-p2">P2</span><span class="tag tag-pass">NYC Pass</span></span>
+      </div>
+      <p class="meta">Paseo Bus · Financial District / Battery Park</p>
+      <p class="details">Paseo bus turistico Acceso ilimitado durante 2 días consecutivos a Big Bus New York.
+- Horas disponibles: 09:00 - 16:30 - Último acceso a las 16:30</p>
+    </li>
+    <li class="is-optional">
+      <div class="item-main">
+        <a href="https://www.google.com/maps/search/?api=1&amp;query=Free%20Tour%20NYC%20Financial%20District%20%2F%20Civic%20Center%20%2F%209%2F11%20Memorial" target="_blank" rel="noopener">Free Tour NYC</a>
+        <span class="tags"><span class="tag tag-p2">P2</span><span class="tag tag-optional">Opcional</span><span class="tag tag-cost">Gratis</span></span>
+      </div>
+      <p class="meta">Tour · Financial District / Civic Center / 9/11 Memorial</p>
+      <p class="details">Free Tour (Sale de Escaleras del Museo Nacional de los Indios Americanos y llega a Memorial del 11-S)</p>
+    </li>
+    <li class="">
+      <div class="item-main">
+        <a href="https://www.google.com/maps/search/?api=1&amp;query=Wall%20Street%20Financial%20District" target="_blank" rel="noopener">Wall Street</a>
+        <span class="tags"><span class="tag tag-p1">P1</span><span class="tag tag-cost">Gratis</span></span>
+      </div>
+      <p class="meta">Calle histórica · Financial District</p>
+      <p class="details">Centro financiero mundial</p>
+    </li>
+    <li class="">
+      <div class="item-main">
+        <a href="https://www.google.com/maps/search/?api=1&amp;query=The%20Fearless%20Girl%20Financial%20District" target="_blank" rel="noopener">The Fearless Girl</a>
+        <span class="tags"><span class="tag tag-p1">P1</span><span class="tag tag-cost">Gratis</span></span>
+      </div>
+      <p class="meta">Escultura · Financial District</p>
+      
+    </li>
+    <li class="">
+      <div class="item-main">
+        <a href="https://www.google.com/maps/search/?api=1&amp;query=Charging%20Bull%20Financial%20District%20%2F%20Bowling%20Green" target="_blank" rel="noopener">Charging Bull</a>
+        <span class="tags"><span class="tag tag-p1">P1</span><span class="tag tag-cost">Gratis</span></span>
+      </div>
+      <p class="meta">Escultura · Financial District / Bowling Green</p>
+      <p class="details">Foto clásica de Wall Street</p>
+    </li>
+    <li class="">
+      <div class="item-main">
+        <a href="https://www.google.com/maps/search/?api=1&amp;query=Battery%20Park%20%2B%20SeaGlass%20Carousel%20Battery%20Park" target="_blank" rel="noopener">Battery Park + SeaGlass Carousel</a>
+        <span class="tags"><span class="tag tag-p1">P1</span><span class="tag tag-cost">Gratis</span></span>
+      </div>
+      <p class="meta">Parque · Battery Park</p>
+      <p class="details">Vistas a la Estatua de la Libertad</p>
+    </li>
+    <li class="">
+      <div class="item-main">
+        <a href="https://www.google.com/maps/search/?api=1&amp;query=9%2F11%20Memorial%20%26%20Museum%20New%20York" target="_blank" rel="noopener">9/11 Memorial &amp; Museum</a>
+        <span class="tags"></span>
+      </div>
+      
+      
+    </li>
+    <li class="is-optional">
+      <div class="item-main">
+        <a href="https://www.google.com/maps/search/?api=1&amp;query=One%20World%20Observatory%20(Mirador)%20Financial%20District%20%2F%20World%20Trade%20Center" target="_blank" rel="noopener">One World Observatory (Mirador)</a>
+        <span class="tags"><span class="tag tag-p2">P2</span><span class="tag tag-pass">NYC Pass</span><span class="tag tag-optional">Opcional</span></span>
+      </div>
+      <p class="meta">Observation Deck · Financial District / World Trade Center</p>
+      <p class="details">Skyline + homenaje al 11-S</p>
+    </li>
+    <li class="">
+      <div class="item-main">
+        <a href="https://www.google.com/maps/search/?api=1&amp;query=The%20Oculus%20World%20Trade%20Center" target="_blank" rel="noopener">The Oculus</a>
+        <span class="tags"><span class="tag tag-p1">P1</span><span class="tag tag-cost">Gratis</span></span>
+      </div>
+      <p class="meta">Arquitectura / Centro comercial · World Trade Center</p>
+      <p class="details">Interior futurista impresionante</p>
+    </li></ol>
+    </section>
+    <section class="slot slot-comida">
+      <h3>COMIDA</h3>
+      <ol>
+    <li class="">
+      <div class="item-main">
+        <a href="https://www.google.com/maps/search/?api=1&amp;query=LOS%20TACOS%20No.1%20New%20York" target="_blank" rel="noopener">LOS TACOS No.1</a>
+        <span class="tags"></span>
+      </div>
+      
+      
+    </li></ol>
+    </section>
+    <section class="slot slot-tarde">
+      <h3>TARDE</h3>
+      <ol>
+    <li class="">
+      <div class="item-main">
+        <a href="https://www.google.com/maps/search/?api=1&amp;query=Trinity%20Church%20%2F%20Parada%209%20Hop%20On%26Off%20Bus%20(Downtown)%20Financial%20District" target="_blank" rel="noopener">Trinity Church / Parada 9 Hop On&amp;Off Bus (Downtown)</a>
+        <span class="tags"><span class="tag tag-p2">P2</span><span class="tag tag-pass">NYC Pass</span></span>
+      </div>
+      <p class="meta">Paseo Bus · Financial District</p>
+      <p class="details">Paseo bus turistico Acceso ilimitado durante 2 días consecutivos a Big Bus New York.
+- Horas disponibles: 09:00 - 16:30 - Último acceso a las 16:30</p>
+    </li>
+    <li class="">
+      <div class="item-main">
+        <a href="https://www.google.com/maps/search/?api=1&amp;query=Hop%20On%26Off%20Bus%20(Downtown)%20Downtown%20Route" target="_blank" rel="noopener">Hop On&amp;Off Bus (Downtown)</a>
+        <span class="tags"><span class="tag tag-p2">P2</span><span class="tag tag-pass">NYC Pass</span></span>
+      </div>
+      <p class="meta">Paseo Bus · Downtown Route</p>
+      <p class="details">Paseo bus turistico Acceso ilimitado durante 2 días consecutivos a Big Bus New York.
+- Horas disponibles: 09:00 - 16:30 - Último acceso a las 16:30</p>
+    </li>
+    <li class="">
+      <div class="item-main">
+        <a href="https://www.google.com/maps/search/?api=1&amp;query=Chelsea%20%2F%20Pier%2057%20%2F%20Parada%2011%20Hop%20On%26Off%20Bus%20(Downtown)%20Chelsea%20%2F%20Hudson%20River%20Park" target="_blank" rel="noopener">Chelsea / Pier 57 / Parada 11 Hop On&amp;Off Bus (Downtown)</a>
+        <span class="tags"><span class="tag tag-p2">P2</span><span class="tag tag-pass">NYC Pass</span></span>
+      </div>
+      <p class="meta">Paseo Bus · Chelsea / Hudson River Park</p>
+      <p class="details">Paseo bus turistico Acceso ilimitado durante 2 días consecutivos a Big Bus New York.
+- Horas disponibles: 09:00 - 16:30 - Último acceso a las 16:30</p>
+    </li>
+    <li class="">
+      <div class="item-main">
+        <a href="https://www.google.com/maps/search/?api=1&amp;query=Pier%2057%20Rooftop%20Park%20Chelsea%20%2F%20Hudson%20River%20Park" target="_blank" rel="noopener">Pier 57 Rooftop Park</a>
+        <span class="tags"><span class="tag tag-p1">P1</span><span class="tag tag-cost">Gratis</span></span>
+      </div>
+      <p class="meta">Rooftop / Mirador · Chelsea / Hudson River Park</p>
+      <p class="details">Rooftop gratuito poco conocido</p>
+    </li>
+    <li class="">
+      <div class="item-main">
+        <a href="https://www.google.com/maps/search/?api=1&amp;query=Little%20Island%20Chelsea%20%2F%20Hudson%20River%20Park" target="_blank" rel="noopener">Little Island</a>
+        <span class="tags"><span class="tag tag-p1">P1</span><span class="tag tag-cost">Gratis</span></span>
+      </div>
+      <p class="meta">Parque flotante · Chelsea / Hudson River Park</p>
+      <p class="details">Diseño moderno muy original</p>
+    </li>
+    <li class="">
+      <div class="item-main">
+        <a href="https://www.google.com/maps/search/?api=1&amp;query=The%20High%20Line%20Chelsea%20%2F%20Meatpacking%20%2F%20Hudson%20Yards" target="_blank" rel="noopener">The High Line</a>
+        <span class="tags"><span class="tag tag-p1">P1</span><span class="tag tag-cost">Gratis</span></span>
+      </div>
+      <p class="meta">Paseo urbano · Chelsea / Meatpacking / Hudson Yards</p>
+      <p class="details">Parque elevado sobre vías antiguas</p>
+    </li>
+    <li class="is-optional">
+      <div class="item-main">
+        <a href="https://www.google.com/maps/search/?api=1&amp;query=Meatpacking%20District%20(Chelsea)%20Meatpacking%20District" target="_blank" rel="noopener">Meatpacking District (Chelsea)</a>
+        <span class="tags"><span class="tag tag-p3">P3</span><span class="tag tag-optional">Opcional</span><span class="tag tag-cost">Gratis</span></span>
+      </div>
+      <p class="meta">Barrio · Meatpacking District</p>
+      <p class="details">&quot;Una de las zonas más de moda en NY&quot;</p>
+    </li>
+    <li class="is-optional">
+      <div class="item-main">
+        <a href="https://www.google.com/maps/search/?api=1&amp;query=Ver%20un%20partido%20de%20los%20Knicks%20%2F%20Seg%C3%BAn%20ubicaci%C3%B3n%20del%20evento" target="_blank" rel="noopener">Ver un partido de los Knicks /</a>
+        <span class="tags"><span class="tag tag-p1">P1</span><span class="tag tag-optional">Opcional</span><span class="tag tag-cost">Gratis</span></span>
+      </div>
+      <p class="meta">Actividad · Según ubicación del evento</p>
+      <p class="details">Ver un partido de las Finales de la conferencia oeste en la ciudad Fechas:
+- May 19 (G1)
+- May 21 (G2)
+- May 23 (G3)
+- May 25 (G4)
+- May 27 (G5)</p>
+    </li></ol>
+    </section>
+    <section class="slot slot-cena">
+      <h3>CENA</h3>
+      <ol>
+    <li class="">
+      <div class="item-main">
+        <a href="https://www.google.com/maps/search/?api=1&amp;query=Chelsea%20Market%20Chelsea%20%2F%20Meatpacking%20District" target="_blank" rel="noopener">Chelsea Market</a>
+        <span class="tags"><span class="tag tag-p2">P2</span><span class="tag tag-cost">Gratis</span></span>
+      </div>
+      <p class="meta">Mercado gastronómico · Chelsea / Meatpacking District</p>
+      <p class="details">Parada top para comer y ambiente</p>
+    </li></ol>
+    </section>
+    <section class="slot slot-noche-(alojamiento)">
+      <h3>Noche (Alojamiento)</h3>
+      <ol>
+    <li class="">
+      <div class="item-main">
+        <a href="https://www.google.com/maps/search/?api=1&amp;query=Sheraton%20Lincoln%20Harbor%20Hotel%20%2F%20500%20Harbor%20Boulevard%2C%20Weehawken%2C%20NJ%2007086%20%2C%20Estados%20Unidos%20New%20York" target="_blank" rel="noopener">Sheraton Lincoln Harbor Hotel / 500 Harbor Boulevard, Weehawken, NJ 07086 , Estados Unidos</a>
+        <span class="tags"></span>
+      </div>
+      
+      
+    </li></ol>
+    </section>
+      </div>
+    </details>
+    <details class="day-card day-4" id="dia-4" >
+      <summary>
+        <span class="day-num">4</span>
+        <span class="day-title">
+          <strong>Día 4 - NYC</strong>
+          <small>Domingo · 24 may · Harlem · Abyssinian Baptist Church / First Corinthian Baptist Church / Canaan Baptist Church</small>
+        </span>
+        <span class="day-badges">
+          <span class="mini p1">2 P1</span>
+          
+          <span class="mini optional">1 opc.</span>
+        </span>
+        <span class="chevron">⌄</span>
+      </summary>
+      <div class="day-body">
+        
+    <section class="slot slot-manana">
+      <h3>MAÑANA</h3>
+      <ol>
+    <li class="is-optional">
+      <div class="item-main">
+        <a href="https://www.google.com/maps/search/?api=1&amp;query=Harlem%20Harlem" target="_blank" rel="noopener">Harlem</a>
+        <span class="tags"><span class="tag tag-p3">P3</span><span class="tag tag-optional">Opcional</span><span class="tag tag-cost">Gratis</span></span>
+      </div>
+      <p class="meta">Barrio · Harlem</p>
+      <p class="details">Mejor dia para verlo -&gt; Domingo</p>
+    </li>
+    <li class="">
+      <div class="item-main">
+        <a href="https://www.google.com/maps/search/?api=1&amp;query=Misa%20Gospel%20en%20Harlem%20Abyssinian%20Baptist%20Church%20%2F%20First%20Corinthian%20Baptist%20Church%20%2F%20Canaan%20Baptist%20Church" target="_blank" rel="noopener">Misa Gospel en Harlem</a>
+        <span class="tags"><span class="tag tag-p2">P2</span><span class="tag tag-cost">Gratis / Donativo recomendado</span></span>
+      </div>
+      <p class="meta">Experiencia cultural / Religiosa · Abyssinian Baptist Church / First Corinthian Baptist Church / Canaan Baptist Church</p>
+      <p class="details">Asistir a un servicio religioso dominical en Harlem con música gospel. Plan recomendable si encaja en domingo por la mañana y se quiere vivir una experiencia local/cultural distinta. Revisar horarios antes de ir y llegar con antelación. Abyssinian Baptist Church indica culto dominical presencial y online a las 10:00 en 132 Odell Clark Place. FCBC también publica worship experience los domingos a las 10:00. Mantener actitud respetuosa: no tratarlo como espectáculo, vestir correctamente, evitar fotos/vídeos si no está permitido y no irse a mitad del servicio.</p>
+    </li>
+    <li class="">
+      <div class="item-main">
+        <a href="https://www.google.com/maps/search/?api=1&amp;query=Bethel%20Gospel%20Assembly%20Harlem" target="_blank" rel="noopener">Bethel Gospel Assembly</a>
+        <span class="tags"><span class="tag tag-p2">P2</span><span class="tag tag-cost">Gratis</span></span>
+      </div>
+      <p class="meta">Iglesia · Harlem</p>
+      <p class="details">Misa gospel con ambiente MUY local</p>
+    </li>
+    <li class="">
+      <div class="item-main">
+        <a href="https://www.google.com/maps/search/?api=1&amp;query=Greenwich%20Village%20Greenwich%20Village" target="_blank" rel="noopener">Greenwich Village</a>
+        <span class="tags"><span class="tag tag-p2">P2</span><span class="tag tag-cost">Gratis</span></span>
+      </div>
+      <p class="meta">Barrio · Greenwich Village</p>
+      <p class="details">Zona más auténtica y europea</p>
+    </li></ol>
+    </section>
+    <section class="slot slot-comida">
+      <h3>COMIDA</h3>
+      <ol>
+    <li class="">
+      <div class="item-main">
+        <a href="https://www.google.com/maps/search/?api=1&amp;query=L%E2%80%99industrie%20Pizzeria%20-%20West%20Village%20New%20York" target="_blank" rel="noopener">L’industrie Pizzeria - West Village</a>
+        <span class="tags"></span>
+      </div>
+      
+      
+    </li>
+    <li class="">
+      <div class="item-main">
+        <a href="https://www.google.com/maps/search/?api=1&amp;query=Mama&#39;s%20TOO!%20Pizzeria%20West%20Village%20New%20York" target="_blank" rel="noopener">Mama&#39;s TOO! Pizzeria West Village</a>
+        <span class="tags"></span>
+      </div>
+      
+      
+    </li>
+    <li class="">
+      <div class="item-main">
+        <a href="https://www.google.com/maps/search/?api=1&amp;query=John&#39;s%20of%20Bleecker%20Street%20New%20York" target="_blank" rel="noopener">John&#39;s of Bleecker Street</a>
+        <span class="tags"></span>
+      </div>
+      
+      
+    </li>
+    <li class="">
+      <div class="item-main">
+        <a href="https://www.google.com/maps/search/?api=1&amp;query=Faicco%E2%80%99s%20Italian%20Specialties%20New%20York" target="_blank" rel="noopener">Faicco’s Italian Specialties</a>
+        <span class="tags"></span>
+      </div>
+      
+      
+    </li></ol>
+    </section>
+    <section class="slot slot-tarde">
+      <h3>TARDE</h3>
+      <ol>
+    <li class="">
+      <div class="item-main">
+        <a href="https://www.google.com/maps/search/?api=1&amp;query=Greenwich%20Village%20Greenwich%20Village" target="_blank" rel="noopener">Greenwich Village</a>
+        <span class="tags"><span class="tag tag-p2">P2</span><span class="tag tag-cost">Gratis</span></span>
+      </div>
+      <p class="meta">Barrio · Greenwich Village</p>
+      <p class="details">Zona más auténtica y europea</p>
+    </li>
+    <li class="">
+      <div class="item-main">
+        <a href="https://www.google.com/maps/search/?api=1&amp;query=Friends%20apartment%20Greenwich%20Village%20%2F%20West%20Village" target="_blank" rel="noopener">Friends apartment</a>
+        <span class="tags"><span class="tag tag-p2">P2</span><span class="tag tag-cost">Gratis</span></span>
+      </div>
+      <p class="meta">Edificio · Greenwich Village / West Village</p>
+      
+    </li>
+    <li class="">
+      <div class="item-main">
+        <a href="https://www.google.com/maps/search/?api=1&amp;query=Carrie%20Bradshaw&#39;s%20apartment%20West%20Village" target="_blank" rel="noopener">Carrie Bradshaw&#39;s apartment</a>
+        <span class="tags"><span class="tag tag-p2">P2</span><span class="tag tag-cost">Gratis</span></span>
+      </div>
+      <p class="meta">Edificio · West Village</p>
+      
+    </li>
+    <li class="">
+      <div class="item-main">
+        <a href="https://www.google.com/maps/search/?api=1&amp;query=Washington%20Square%20Park%20Greenwich%20Village" target="_blank" rel="noopener">Washington Square Park</a>
+        <span class="tags"><span class="tag tag-p2">P2</span><span class="tag tag-cost">Gratis</span></span>
+      </div>
+      <p class="meta">Parque · Greenwich Village</p>
+      <p class="details">Ambiente universitario y artístico</p>
+    </li>
+    <li class="">
+      <div class="item-main">
+        <a href="https://www.google.com/maps/search/?api=1&amp;query=SoHo%20SoHo" target="_blank" rel="noopener">SoHo</a>
+        <span class="tags"><span class="tag tag-p2">P2</span><span class="tag tag-cost">Gratis</span></span>
+      </div>
+      <p class="meta">Barrio · SoHo</p>
+      <p class="details">Tiendas, calles y edificios de hierro</p>
+    </li>
+    <li class="">
+      <div class="item-main">
+        <a href="https://www.google.com/maps/search/?api=1&amp;query=Little%20Italy%20Little%20Italy%20%2F%20NoLita" target="_blank" rel="noopener">Little Italy</a>
+        <span class="tags"><span class="tag tag-p1">P1</span><span class="tag tag-cost">Gratis</span></span>
+      </div>
+      <p class="meta">Barrio · Little Italy / NoLita</p>
+      <p class="details">Historia italoamericana</p>
+    </li>
+    <li class="">
+      <div class="item-main">
+        <a href="https://www.google.com/maps/search/?api=1&amp;query=Chinatown%20Chinatown" target="_blank" rel="noopener">Chinatown</a>
+        <span class="tags"><span class="tag tag-p1">P1</span><span class="tag tag-cost">Gratis</span></span>
+      </div>
+      <p class="meta">Barrio · Chinatown</p>
+      <p class="details">Cultura y comida asiática</p>
+    </li></ol>
+    </section>
+    <section class="slot slot-cena">
+      <h3>CENA</h3>
+      <ol>
+    <li class="">
+      <div class="item-main">
+        <a href="https://www.google.com/maps/search/?api=1&amp;query=Cena%20en%20Chinatown%20%2F%20Little%20Italy%20New%20York" target="_blank" rel="noopener">Cena en Chinatown / Little Italy</a>
+        <span class="tags"></span>
+      </div>
+      
+      
+    </li>
+    <li class="">
+      <div class="item-main">
+        <a href="https://www.google.com/maps/search/?api=1&amp;query=Deux%20Luxe%20New%20York" target="_blank" rel="noopener">Deux Luxe</a>
+        <span class="tags"></span>
+      </div>
+      
+      
+    </li>
+    <li class="">
+      <div class="item-main">
+        <a href="https://www.google.com/maps/search/?api=1&amp;query=1915%20Lanzhou%20Noodles%20New%20York" target="_blank" rel="noopener">1915 Lanzhou Noodles</a>
+        <span class="tags"></span>
+      </div>
+      
+      
+    </li></ol>
+    </section>
+    <section class="slot slot-noche-(alojamiento)">
+      <h3>Noche (Alojamiento)</h3>
+      <ol>
+    <li class="">
+      <div class="item-main">
+        <a href="https://www.google.com/maps/search/?api=1&amp;query=Sheraton%20Lincoln%20Harbor%20Hotel%20%2F%20500%20Harbor%20Boulevard%2C%20Weehawken%2C%20NJ%2007086%20%2C%20Estados%20Unidos%20New%20York" target="_blank" rel="noopener">Sheraton Lincoln Harbor Hotel / 500 Harbor Boulevard, Weehawken, NJ 07086 , Estados Unidos</a>
+        <span class="tags"></span>
+      </div>
+      
+      
+    </li></ol>
+    </section>
+      </div>
+    </details>
+    <details class="day-card day-5" id="dia-5" >
+      <summary>
+        <span class="day-num">5</span>
+        <span class="day-title">
+          <strong>Día 5 - NYC</strong>
+          <small>Lunes (Memorial Day - Festivo Nacional) · 25 may · Coney Island · Bronx / Queens / Brooklyn / Harlem</small>
+        </span>
+        <span class="day-badges">
+          <span class="mini p1">4 P1</span>
+          <span class="mini pass">1 Pass</span>
+          <span class="mini optional">3 opc.</span>
+        </span>
+        <span class="chevron">⌄</span>
+      </summary>
+      <div class="day-body">
+        
+    <section class="slot slot-manana">
+      <h3>MAÑANA</h3>
+      <ol>
+    <li class="is-optional">
+      <div class="item-main">
+        <a href="https://www.google.com/maps/search/?api=1&amp;query=Coney%20Island%20Coney%20Island" target="_blank" rel="noopener">Coney Island</a>
+        <span class="tags"><span class="tag tag-p3">P3</span><span class="tag tag-optional">Opcional</span><span class="tag tag-cost">Gratis</span></span>
+      </div>
+      <p class="meta">Paseo marítimo · Coney Island</p>
+      <p class="details">Ambiente vintage (lejisimos) Lo incluido en NYC pass son las atracciones. Visitar es gratis.</p>
+    </li>
+    <li class="is-optional">
+      <div class="item-main">
+        <a href="https://www.google.com/maps/search/?api=1&amp;query=Coney%20Island%20%2F%20(Atracciones)%20Coney%20Island" target="_blank" rel="noopener">Coney Island / (Atracciones)</a>
+        <span class="tags"><span class="tag tag-p3">P3</span><span class="tag tag-pass">NYC Pass</span><span class="tag tag-optional">Opcional</span><span class="tag tag-cost">Gratis</span></span>
+      </div>
+      <p class="meta">Paseo marítimo · Coney Island</p>
+      <p class="details">Ambiente vintage (lejisimos) Lo incluido en NYC pass son las atracciones. Visitar es gratis.</p>
+    </li>
+    <li class="is-optional">
+      <div class="item-main">
+        <a href="https://www.google.com/maps/search/?api=1&amp;query=Tour%20de%20Contrastes%20Bronx%20%2F%20Queens%20%2F%20Brooklyn%20%2F%20Harlem" target="_blank" rel="noopener">Tour de Contrastes</a>
+        <span class="tags"><span class="tag tag-p2">P2</span><span class="tag tag-optional">Opcional</span><span class="tag tag-cost">40</span></span>
+      </div>
+      <p class="meta">Tour · Bronx / Queens / Brooklyn / Harlem</p>
+      <p class="details">Tour de contrastes (Queens, Brooklyn, el Bronx) - Duración 4h https://www.civitatis.com/es/nueva-york/contrastes-nueva-york?aid=1289&amp;cmp=Top20TourContrastes2</p>
+    </li></ol>
+    </section>
+    <section class="slot slot-comida">
+      <h3>COMIDA</h3>
+      <ol>
+    <li class="">
+      <div class="item-main">
+        <a href="https://www.google.com/maps/search/?api=1&amp;query=Comida%20Improvisada%20(Pizza%20Slice%2C%20etc..)%20New%20York" target="_blank" rel="noopener">Comida Improvisada (Pizza Slice, etc..)</a>
+        <span class="tags"></span>
+      </div>
+      
+      
+    </li></ol>
+    </section>
+    <section class="slot slot-tarde">
+      <h3>TARDE</h3>
+      <ol>
+    <li class="">
+      <div class="item-main">
+        <a href="https://www.google.com/maps/search/?api=1&amp;query=DUMBO%20DUMBO" target="_blank" rel="noopener">DUMBO</a>
+        <span class="tags"><span class="tag tag-p1">P1</span><span class="tag tag-cost">Gratis</span></span>
+      </div>
+      <p class="meta">Barrio · DUMBO</p>
+      <p class="details">Las fotos clásicas del puente</p>
+    </li>
+    <li class="">
+      <div class="item-main">
+        <a href="https://www.google.com/maps/search/?api=1&amp;query=Pebble%20Beach%20DUMBO%20%2F%20Brooklyn%20Bridge%20Park" target="_blank" rel="noopener">Pebble Beach</a>
+        <span class="tags"><span class="tag tag-p1">P1</span><span class="tag tag-cost">Gratis</span></span>
+      </div>
+      <p class="meta">Mirador · DUMBO / Brooklyn Bridge Park</p>
+      <p class="details">Spot fotográfico icónico desde DUMBO park</p>
+    </li>
+    <li class="">
+      <div class="item-main">
+        <a href="https://www.google.com/maps/search/?api=1&amp;query=Jane&#39;s%20Carousel%20DUMBO%20%2F%20Brooklyn%20Bridge%20Park" target="_blank" rel="noopener">Jane&#39;s Carousel</a>
+        <span class="tags"><span class="tag tag-p2">P2</span><span class="tag tag-cost">Gratis</span></span>
+      </div>
+      <p class="meta">Atracción · DUMBO / Brooklyn Bridge Park</p>
+      <p class="details">Carrusel con vistas a Manhattan</p>
+    </li>
+    <li class="">
+      <div class="item-main">
+        <a href="https://www.google.com/maps/search/?api=1&amp;query=Fotograf%C3%ADa%20Manhattan%20Bridge%20desde%20Washington%20Street%20DUMBO%20%2F%20Washington%20Street" target="_blank" rel="noopener">Fotografía Manhattan Bridge desde Washington Street</a>
+        <span class="tags"><span class="tag tag-p1">P1</span><span class="tag tag-cost">Gratis</span></span>
+      </div>
+      <p class="meta">Spot fotográfico · DUMBO / Washington Street</p>
+      <p class="details">Foto icónica del Manhattan Bridge encuadrado entre edificios Añadirlo como parada concreta dentro de DUMBO. Probablemente ya lo harás, pero conviene tenerlo identificado.</p>
+    </li>
+    <li class="">
+      <div class="item-main">
+        <a href="https://www.google.com/maps/search/?api=1&amp;query=Brooklyn%20Bridge%20Park%20DUMBO%20%2F%20Brooklyn%20Bridge%20Park" target="_blank" rel="noopener">Brooklyn Bridge Park</a>
+        <span class="tags"><span class="tag tag-p2">P2</span><span class="tag tag-cost">Gratis</span></span>
+      </div>
+      <p class="meta">Parque · DUMBO / Brooklyn Bridge Park</p>
+      <p class="details">Mejores vistas del skyline</p>
+    </li>
+    <li class="">
+      <div class="item-main">
+        <a href="https://www.google.com/maps/search/?api=1&amp;query=Brooklyn%20Heights%20Promenade%20Brooklyn%20Heights" target="_blank" rel="noopener">Brooklyn Heights Promenade</a>
+        <span class="tags"><span class="tag tag-p2">P2</span><span class="tag tag-cost">Gratis</span></span>
+      </div>
+      <p class="meta">Paseo / Mirador · Brooklyn Heights</p>
+      <p class="details">Skyline probablemente más bonito de NYC Prio 2 porque ya tengo como prio 1 Brooklyn Bridge y esto es bajar hacia abajo si tenemos tiempo</p>
+    </li>
+    <li class="">
+      <div class="item-main">
+        <a href="https://www.google.com/maps/search/?api=1&amp;query=Time%20Out%20Market%20New%20York%20New%20York" target="_blank" rel="noopener">Time Out Market New York</a>
+        <span class="tags"><span class="tag tag-p2">P2</span></span>
+      </div>
+      <p class="meta">Food hall / mercado gastronómico · DUMBO, Brooklyn</p>
+      
+    </li>
+    <li class="">
+      <div class="item-main">
+        <a href="https://www.google.com/maps/search/?api=1&amp;query=Brooklyn%20Bridge%20Brooklyn%20Bridge" target="_blank" rel="noopener">Brooklyn Bridge</a>
+        <span class="tags"><span class="tag tag-p1">P1</span><span class="tag tag-cost">Gratis</span></span>
+      </div>
+      <p class="meta">Puente / Paseo · Brooklyn Bridge</p>
+      <p class="details">Caminata imprescindible</p>
+    </li></ol>
+    </section>
+    <section class="slot slot-cena">
+      <h3>CENA</h3>
+      <ol>
+    <li class="">
+      <div class="item-main">
+        <a href="https://www.google.com/maps/search/?api=1&amp;query=Cena%20en%20Chinatown%20%2F%20Little%20Italy%20New%20York" target="_blank" rel="noopener">Cena en Chinatown / Little Italy</a>
+        <span class="tags"></span>
+      </div>
+      
+      
+    </li>
+    <li class="">
+      <div class="item-main">
+        <a href="https://www.google.com/maps/search/?api=1&amp;query=Jin%20Mei%20Dumpling%20New%20York" target="_blank" rel="noopener">Jin Mei Dumpling</a>
+        <span class="tags"></span>
+      </div>
+      
+      
+    </li>
+    <li class="">
+      <div class="item-main">
+        <a href="https://www.google.com/maps/search/?api=1&amp;query=Nolita%20Pizza%20New%20York" target="_blank" rel="noopener">Nolita Pizza</a>
+        <span class="tags"></span>
+      </div>
+      
+      
+    </li></ol>
+    </section>
+    <section class="slot slot-noche-(alojamiento)">
+      <h3>Noche (Alojamiento)</h3>
+      <ol>
+    <li class="">
+      <div class="item-main">
+        <a href="https://www.google.com/maps/search/?api=1&amp;query=Sheraton%20Lincoln%20Harbor%20Hotel%20%2F%20500%20Harbor%20Boulevard%2C%20Weehawken%2C%20NJ%2007086%20%2C%20Estados%20Unidos%20New%20York" target="_blank" rel="noopener">Sheraton Lincoln Harbor Hotel / 500 Harbor Boulevard, Weehawken, NJ 07086 , Estados Unidos</a>
+        <span class="tags"></span>
+      </div>
+      
+      
+    </li></ol>
+    </section>
+      </div>
+    </details>
+    <details class="day-card day-6" id="dia-6" >
+      <summary>
+        <span class="day-num">6</span>
+        <span class="day-title">
+          <strong>Día 6 - NYC</strong>
+          <small>Martes · 26 may · Central Park · Central Park / Strawberry Fields</small>
+        </span>
+        <span class="day-badges">
+          <span class="mini p1">7 P1</span>
+          <span class="mini pass">2 Pass</span>
+          <span class="mini optional">2 opc.</span>
+        </span>
+        <span class="chevron">⌄</span>
+      </summary>
+      <div class="day-body">
+        
+    <section class="slot slot-manana">
+      <h3>MAÑANA</h3>
+      <ol>
+    <li class="">
+      <div class="item-main">
+        <a href="https://www.google.com/maps/search/?api=1&amp;query=Central%20Park%20Central%20Park" target="_blank" rel="noopener">Central Park</a>
+        <span class="tags"><span class="tag tag-p1">P1</span><span class="tag tag-cost">Gratis</span></span>
+      </div>
+      <p class="meta">Parque · Central Park</p>
+      <p class="details">El parque urbano más famoso del mundo</p>
+    </li>
+    <li class="">
+      <div class="item-main">
+        <a href="https://www.google.com/maps/search/?api=1&amp;query=Bicis%20por%20Central%20Park%20Central%20Park" target="_blank" rel="noopener">Bicis por Central Park</a>
+        <span class="tags"><span class="tag tag-p2">P2</span><span class="tag tag-cost">Gratis</span></span>
+      </div>
+      <p class="meta">Parque · Central Park</p>
+      
+    </li>
+    <li class="">
+      <div class="item-main">
+        <a href="https://www.google.com/maps/search/?api=1&amp;query=Strawberry%20Fields%20Central%20Park%20%2F%20Strawberry%20Fields" target="_blank" rel="noopener">Strawberry Fields</a>
+        <span class="tags"><span class="tag tag-p1">P1</span><span class="tag tag-cost">Gratis</span></span>
+      </div>
+      <p class="meta">Parque · Central Park / Strawberry Fields</p>
+      <p class="details">Imagine</p>
+    </li>
+    <li class="">
+      <div class="item-main">
+        <a href="https://www.google.com/maps/search/?api=1&amp;query=American%20Museum%20of%20Natural%20History%20%2F%20Upper%20West%20Side%20%2F%20Central%20Park%20West" target="_blank" rel="noopener">American Museum of Natural History /</a>
+        <span class="tags"><span class="tag tag-p2">P2</span><span class="tag tag-pass">NYC Pass</span></span>
+      </div>
+      <p class="meta">Museo · Upper West Side / Central Park West</p>
+      <p class="details">Dinosaurios y ciencia</p>
+    </li></ol>
+    </section>
+    <section class="slot slot-comida">
+      <h3>COMIDA</h3>
+      <ol>
+    <li class="">
+      <div class="item-main">
+        <a href="https://www.google.com/maps/search/?api=1&amp;query=Gray&#39;s%20Papaya%20New%20York" target="_blank" rel="noopener">Gray&#39;s Papaya</a>
+        <span class="tags"></span>
+      </div>
+      
+      
+    </li></ol>
+    </section>
+    <section class="slot slot-tarde">
+      <h3>TARDE</h3>
+      <ol>
+    <li class="">
+      <div class="item-main">
+        <a href="https://www.google.com/maps/search/?api=1&amp;query=Ferry%20(west)%20Pier%2079%20o%20Brookfield%20Place%20Terminal%20West%20Side%20%2F%20Hudson%20River" target="_blank" rel="noopener">Ferry (west) Pier 79 o Brookfield Place Terminal</a>
+        <span class="tags"><span class="tag tag-p1">P1</span><span class="tag tag-cost">4,5$</span></span>
+      </div>
+      <p class="meta">Ferry · West Side / Hudson River</p>
+      <p class="details">Ferry costa oeste  Coger el St George’s Ferry (en vez del gratuito de Staten Island) cuesta 3,5$ pero estatua libertad mucho más de cerca y menos gente / se puede hacer desde más arriba (Pier 79) por solo 1$ más (4,5$)</p>
+    </li>
+    <li class="">
+      <div class="item-main">
+        <a href="https://www.google.com/maps/search/?api=1&amp;query=Statue%20of%20Liberty%20Liberty%20Island" target="_blank" rel="noopener">Statue of Liberty</a>
+        <span class="tags"><span class="tag tag-p1">P1</span><span class="tag tag-cost">Gratis</span></span>
+      </div>
+      <p class="meta">Monumento · Liberty Island</p>
+      <p class="details">El símbolo más icónico de EE.UU.</p>
+    </li>
+    <li class="">
+      <div class="item-main">
+        <a href="https://www.google.com/maps/search/?api=1&amp;query=Top%20of%20the%20Rock%20(Mirador)%20%2F%20Rockefeller%20Center" target="_blank" rel="noopener">Top of the Rock (Mirador) /</a>
+        <span class="tags"><span class="tag tag-p1">P1</span><span class="tag tag-pass">NYC Pass</span></span>
+      </div>
+      <p class="meta">Observation Deck · Rockefeller Center</p>
+      <p class="details">Mejor vista del Empire State y Central Park</p>
+    </li>
+    <li class="is-optional">
+      <div class="item-main">
+        <a href="https://www.google.com/maps/search/?api=1&amp;query=Ver%20un%20partido%20de%20los%20Knicks%20Seg%C3%BAn%20ubicaci%C3%B3n%20del%20evento" target="_blank" rel="noopener">Ver un partido de los Knicks</a>
+        <span class="tags"><span class="tag tag-p1">P1</span><span class="tag tag-optional">Opcional</span><span class="tag tag-cost">Gratis</span></span>
+      </div>
+      <p class="meta">Actividad · Según ubicación del evento</p>
+      <p class="details">Ver un partido de las Finales de la conferencia oeste en la ciudad Fechas:
+- May 19 (G1)
+- May 21 (G2)
+- May 23 (G3)
+- May 25 (G4)
+- May 27 (G5)</p>
+    </li></ol>
+    </section>
+    <section class="slot slot-cena">
+      <h3>CENA</h3>
+      <ol>
+    <li class="">
+      <div class="item-main">
+        <a href="https://www.google.com/maps/search/?api=1&amp;query=Cena%20Improvisada%20(Pizza%20Slice%2C%20etc..)%20New%20York" target="_blank" rel="noopener">Cena Improvisada (Pizza Slice, etc..)</a>
+        <span class="tags"></span>
+      </div>
+      
+      
+    </li>
+    <li class="">
+      <div class="item-main">
+        <a href="https://www.google.com/maps/search/?api=1&amp;query=Adel&#39;s%20Famous%20Halal%20Food%20New%20York" target="_blank" rel="noopener">Adel&#39;s Famous Halal Food</a>
+        <span class="tags"></span>
+      </div>
+      
+      
+    </li></ol>
+    </section>
+    <section class="slot slot-noche">
+      <h3>NOCHE</h3>
+      <ol>
+    <li class="">
+      <div class="item-main">
+        <a href="https://www.google.com/maps/search/?api=1&amp;query=Times%20Square%20Times%20Square%20%2F%20Theater%20District" target="_blank" rel="noopener">Times Square</a>
+        <span class="tags"><span class="tag tag-p1">P1</span><span class="tag tag-cost">Gratis</span></span>
+      </div>
+      <p class="meta">Plaza / Icono · Times Square / Theater District</p>
+      <p class="details">El corazón visual de NYC, luces y ambiente 24h</p>
+    </li>
+    <li class="is-optional">
+      <div class="item-main">
+        <a href="https://www.google.com/maps/search/?api=1&amp;query=McGee&#39;s%20Pub%20(HIMYM)%20Hell&#39;s%20Kitchen%20%2F%20Midtown%20West" target="_blank" rel="noopener">McGee&#39;s Pub (HIMYM)</a>
+        <span class="tags"><span class="tag tag-p3">P3</span><span class="tag tag-optional">Opcional</span><span class="tag tag-cost">$ / $$</span></span>
+      </div>
+      <p class="meta">Bar / pub · Hell&#39;s Kitchen / Midtown West</p>
+      <p class="details">Pub asociado a la inspiración de HIMYM; útil como parada breve</p>
+    </li></ol>
+    </section>
+    <section class="slot slot-noche-(alojamiento)">
+      <h3>Noche (Alojamiento)</h3>
+      <ol>
+    <li class="">
+      <div class="item-main">
+        <a href="https://www.google.com/maps/search/?api=1&amp;query=Sheraton%20Lincoln%20Harbor%20Hotel%20%2F%20500%20Harbor%20Boulevard%2C%20Weehawken%2C%20NJ%2007086%20%2C%20Estados%20Unidos%20New%20York" target="_blank" rel="noopener">Sheraton Lincoln Harbor Hotel / 500 Harbor Boulevard, Weehawken, NJ 07086 , Estados Unidos</a>
+        <span class="tags"></span>
+      </div>
+      
+      
+    </li></ol>
+    </section>
+      </div>
+    </details>
+    <details class="day-card day-1" id="dia-7" >
+      <summary>
+        <span class="day-num">7</span>
+        <span class="day-title">
+          <strong>Día 7 - NYC</strong>
+          <small>Miércoles · 27 may · Hudson Yards · Penn Station / Herald Square</small>
+        </span>
+        <span class="day-badges">
+          <span class="mini p1">6 P1</span>
+          <span class="mini pass">3 Pass</span>
+          <span class="mini optional">1 opc.</span>
+        </span>
+        <span class="chevron">⌄</span>
+      </summary>
+      <div class="day-body">
+        
+    <section class="slot slot-desayuno">
+      <h3>DESAYUNO</h3>
+      <ol>
+    <li class="">
+      <div class="item-main">
+        <a href="https://www.google.com/maps/search/?api=1&amp;query=Liberty%20Bagels%20Midtown%20New%20York" target="_blank" rel="noopener">Liberty Bagels Midtown</a>
+        <span class="tags"></span>
+      </div>
+      
+      
+    </li>
+    <li class="">
+      <div class="item-main">
+        <a href="https://www.google.com/maps/search/?api=1&amp;query=Matto%20Espresso%20New%20York" target="_blank" rel="noopener">Matto Espresso</a>
+        <span class="tags"></span>
+      </div>
+      
+      
+    </li>
+    <li class="">
+      <div class="item-main">
+        <a href="https://www.google.com/maps/search/?api=1&amp;query=Apollo%20Bagels%20New%20York" target="_blank" rel="noopener">Apollo Bagels</a>
+        <span class="tags"></span>
+      </div>
+      
+      
+    </li></ol>
+    </section>
+    <section class="slot slot-manana">
+      <h3>MAÑANA</h3>
+      <ol>
+    <li class="">
+      <div class="item-main">
+        <a href="https://www.google.com/maps/search/?api=1&amp;query=The%20Edge%20(Mirador)%20%2F%20Hudson%20Yards" target="_blank" rel="noopener">The Edge (Mirador) /</a>
+        <span class="tags"><span class="tag tag-p1">P1</span><span class="tag tag-pass">NYC Pass</span></span>
+      </div>
+      <p class="meta">Observation Deck · Hudson Yards</p>
+      <p class="details">Plataforma suspendida espectacular</p>
+    </li>
+    <li class="">
+      <div class="item-main">
+        <a href="https://www.google.com/maps/search/?api=1&amp;query=Vessel%20(Exterior)%20Hudson%20Yards" target="_blank" rel="noopener">Vessel (Exterior)</a>
+        <span class="tags"><span class="tag tag-p1">P1</span><span class="tag tag-cost">Gratis</span></span>
+      </div>
+      <p class="meta">Estructura / Mirador · Hudson Yards</p>
+      <p class="details">Arquitectura futurista</p>
+    </li>
+    <li class="">
+      <div class="item-main">
+        <a href="https://www.google.com/maps/search/?api=1&amp;query=Madison%20Square%20Garden%20Penn%20Station%20%2F%20Herald%20Square" target="_blank" rel="noopener">Madison Square Garden</a>
+        <span class="tags"><span class="tag tag-p1">P1</span><span class="tag tag-cost">Gratis</span></span>
+      </div>
+      <p class="meta">Estadio · Penn Station / Herald Square</p>
+      <p class="details">Si coincide verlo con ambiente de partido</p>
+    </li>
+    <li class="">
+      <div class="item-main">
+        <a href="https://www.google.com/maps/search/?api=1&amp;query=Madison%20Square%20Garden%20Tour%20%2F%20Penn%20Station%20%2F%20Herald%20Square" target="_blank" rel="noopener">Madison Square Garden Tour /</a>
+        <span class="tags"><span class="tag tag-p2">P2</span><span class="tag tag-pass">NYC Pass</span></span>
+      </div>
+      <p class="meta">Tour / estadio · Penn Station / Herald Square</p>
+      <p class="details">Tour del pabellón si encaja por horario y precio</p>
+    </li></ol>
+    </section>
+    <section class="slot slot-comida">
+      <h3>COMIDA</h3>
+      <ol>
+    <li class="">
+      <div class="item-main">
+        <a href="https://www.google.com/maps/search/?api=1&amp;query=Comida%20Improvisada%20(Pizza%20Slice%2C%20etc..)%20New%20York" target="_blank" rel="noopener">Comida Improvisada (Pizza Slice, etc..)</a>
+        <span class="tags"></span>
+      </div>
+      
+      
+    </li></ol>
+    </section>
+    <section class="slot slot-tarde">
+      <h3>TARDE</h3>
+      <ol>
+    <li class="">
+      <div class="item-main">
+        <a href="https://www.google.com/maps/search/?api=1&amp;query=Museum%20of%20Modern%20Art%20(MoMA)%20%2F%20Midtown%20%2F%20Fifth%20Avenue" target="_blank" rel="noopener">Museum of Modern Art (MoMA) /</a>
+        <span class="tags"><span class="tag tag-p1">P1</span><span class="tag tag-pass">NYC Pass</span></span>
+      </div>
+      <p class="meta">Museo · Midtown / Fifth Avenue</p>
+      <p class="details">Arte moderno imprescindible</p>
+    </li>
+    <li class="">
+      <div class="item-main">
+        <a href="https://www.google.com/maps/search/?api=1&amp;query=Roosevelt%20Island%20Roosevelt%20Island" target="_blank" rel="noopener">Roosevelt Island</a>
+        <span class="tags"><span class="tag tag-p2">P2</span><span class="tag tag-cost">Gratis</span></span>
+      </div>
+      <p class="meta">Isla / Paseo · Roosevelt Island</p>
+      <p class="details">Skyline tranquilo y menos turístico</p>
+    </li>
+    <li class="">
+      <div class="item-main">
+        <a href="https://www.google.com/maps/search/?api=1&amp;query=Roosevelt%20Island%20Tramway%20Upper%20East%20Side%20%2F%20Tramway%20Plaza" target="_blank" rel="noopener">Roosevelt Island Tramway</a>
+        <span class="tags"><span class="tag tag-p1">P1</span><span class="tag tag-cost">4,90$</span></span>
+      </div>
+      <p class="meta">Teleférico · Upper East Side / Tramway Plaza</p>
+      <p class="details">Vistas brutales y experiencia diferente Hacer la vuelta a Manhattan al atardecer </p>
+    </li>
+    <li class="">
+      <div class="item-main">
+        <a href="https://www.google.com/maps/search/?api=1&amp;query=Manhattanhenge%20Preview%2034th%20St%20%2F%2042nd%20St%20%2F%2057th%20St%2C%20mirando%20hacia%20el%20oeste" target="_blank" rel="noopener">Manhattanhenge Preview</a>
+        <span class="tags"><span class="tag tag-p2">P2</span><span class="tag tag-cost">Gratis</span></span>
+      </div>
+      <p class="meta">Atardecer / Fotografía / Fenómeno urbano · 34th St / 42nd St / 57th St, mirando hacia el oeste</p>
+      <p class="details">Atardecer alineado o casi alineado con la cuadrícula de calles de Manhattan. El Manhattanhenge oficial de 2026 cae el 28/05 a las 20:14, pero el 27/05 puede servir como intento previo si no se está en NYC el día oficial. Llegar 30-45 min antes. Mejor elegir una calle ancha este-oeste con vista despejada hacia New Jersey. Opciones clásicas: 14th, 23rd, 34th, 42nd y 57th St.</p>
+    </li>
+    <li class="is-optional">
+      <div class="item-main">
+        <a href="https://www.google.com/maps/search/?api=1&amp;query=Ver%20un%20partido%20de%20los%20Knicks%20%2F%20Seg%C3%BAn%20ubicaci%C3%B3n%20del%20evento" target="_blank" rel="noopener">Ver un partido de los Knicks /</a>
+        <span class="tags"><span class="tag tag-p1">P1</span><span class="tag tag-optional">Opcional</span><span class="tag tag-cost">Gratis</span></span>
+      </div>
+      <p class="meta">Actividad · Según ubicación del evento</p>
+      <p class="details">Ver un partido de las Finales de la conferencia oeste en la ciudad Fechas:
+- May 19 (G1)
+- May 21 (G2)
+- May 23 (G3)
+- May 25 (G4)
+- May 27 (G5)</p>
+    </li></ol>
+    </section>
+    <section class="slot slot-noche-(alojamiento)">
+      <h3>Noche (Alojamiento)</h3>
+      <ol>
+    <li class="">
+      <div class="item-main">
+        <a href="https://www.google.com/maps/search/?api=1&amp;query=Sheraton%20Lincoln%20Harbor%20Hotel%20%2F%20500%20Harbor%20Boulevard%2C%20Weehawken%2C%20NJ%2007086%20%2C%20Estados%20Unidos%20New%20York" target="_blank" rel="noopener">Sheraton Lincoln Harbor Hotel / 500 Harbor Boulevard, Weehawken, NJ 07086 , Estados Unidos</a>
+        <span class="tags"></span>
+      </div>
+      
+      
+    </li></ol>
+    </section>
+      </div>
+    </details>
+    <details class="day-card day-2" id="dia-8" >
+      <summary>
+        <span class="day-num">8</span>
+        <span class="day-title">
+          <strong>Día 8 - Viaje a Miami</strong>
+          <small>Jueves · 28 may · Central Park · N/A</small>
+        </span>
+        <span class="day-badges">
+          
+          
+          
+        </span>
+        <span class="chevron">⌄</span>
+      </summary>
+      <div class="day-body">
+        
+    <section class="slot slot-manana">
+      <h3>MAÑANA</h3>
+      <ol>
+    <li class="">
+      <div class="item-main">
+        <a href="https://www.google.com/maps/search/?api=1&amp;query=Correr%20por%20Central%20Park%20Central%20Park" target="_blank" rel="noopener">Correr por Central Park</a>
+        <span class="tags"><span class="tag tag-p2">P2</span><span class="tag tag-cost">Gratis</span></span>
+      </div>
+      <p class="meta">Parque · Central Park</p>
+      <p class="details">Último día (jueves 28)</p>
+    </li>
+    <li class="">
+      <div class="item-main">
+        <a href="https://www.google.com/maps/search/?api=1&amp;query=Camino%20a%20el%20Aeropuerto%20N%2FA" target="_blank" rel="noopener">Camino a el Aeropuerto</a>
+        <span class="tags"><span class="tag tag-n/a">N/A</span><span class="tag tag-cost">N/A</span></span>
+      </div>
+      <p class="meta">Viaje · N/A</p>
+      <p class="details">Transporte Ir hacia el aeropuerto para coger vuelo</p>
+    </li></ol>
+    </section>
+    <section class="slot slot-comida">
+      <h3>COMIDA</h3>
+      <ol>
+    <li class="">
+      <div class="item-main">
+        <a href="https://www.google.com/maps/search/?api=1&amp;query=Comida%20en%20Aeropuerto%20New%20York" target="_blank" rel="noopener">Comida en Aeropuerto</a>
+        <span class="tags"></span>
+      </div>
+      
+      
+    </li></ol>
+    </section>
+    <section class="slot slot-tarde">
+      <h3>TARDE</h3>
+      <ol>
+    <li class="">
+      <div class="item-main">
+        <a href="https://www.google.com/maps/search/?api=1&amp;query=Vuelo%20Interno%20NYC%20(JFK)%20-%20Miami%20N%2FA" target="_blank" rel="noopener">Vuelo Interno NYC (JFK) - Miami</a>
+        <span class="tags"><span class="tag tag-n/a">N/A</span><span class="tag tag-cost">N/A</span></span>
+      </div>
+      <p class="meta">Vuelo · N/A</p>
+      <p class="details">Vuelo Coger vuelo hacia Miami (Salida de vuelo a las 14:30h)</p>
+    </li>
+    <li class="">
+      <div class="item-main">
+        <a href="https://www.google.com/maps/search/?api=1&amp;query=Llegada%20a%20Aeropuerto%20Miami%20N%2FA" target="_blank" rel="noopener">Llegada a Aeropuerto Miami</a>
+        <span class="tags"><span class="tag tag-n/a">N/A</span><span class="tag tag-cost">N/A</span></span>
+      </div>
+      <p class="meta">Aeropuerto · N/A</p>
+      <p class="details">Aeropuerto Llegada estimada a Miami 18:00h</p>
+    </li>
+    <li class="">
+      <div class="item-main">
+        <a href="https://www.google.com/maps/search/?api=1&amp;query=Check-In%20Casa%20Andrea%26Diego%20N%2FA" target="_blank" rel="noopener">Check-In Casa Andrea&amp;Diego</a>
+        <span class="tags"><span class="tag tag-n/a">N/A</span><span class="tag tag-cost">N/A</span></span>
+      </div>
+      <p class="meta">Hotel · N/A</p>
+      <p class="details">Hotel</p>
+    </li></ol>
+    </section>
+    <section class="slot slot-noche-(alojamiento)">
+      <h3>Noche (Alojamiento)</h3>
+      <ol>
+    <li class="">
+      <div class="item-main">
+        <a href="https://www.google.com/maps/search/?api=1&amp;query=Casa%20de%20Andrea%20%26%20Diego%20New%20York" target="_blank" rel="noopener">Casa de Andrea &amp; Diego</a>
+        <span class="tags"></span>
+      </div>
+      
+      
+    </li></ol>
+    </section>
+      </div>
+    </details>
+    <details class="day-card day-3" id="dia-9" >
+      <summary>
+        <span class="day-num">9</span>
+        <span class="day-title">
+          <strong>Día 9 - Miami</strong>
+          <small>Viernes · 29 may</small>
+        </span>
+        <span class="day-badges">
+          
+          
+          
+        </span>
+        <span class="chevron">⌄</span>
+      </summary>
+      <div class="day-body">
+        
+    <section class="slot slot-noche-(alojamiento)">
+      <h3>Noche (Alojamiento)</h3>
+      <ol>
+    <li class="">
+      <div class="item-main">
+        <a href="https://www.google.com/maps/search/?api=1&amp;query=Casa%20de%20Andrea%20%26%20Diego%20New%20York" target="_blank" rel="noopener">Casa de Andrea &amp; Diego</a>
+        <span class="tags"></span>
+      </div>
+      
+      
+    </li></ol>
+    </section>
+      </div>
+    </details>
+    <details class="day-card day-4" id="dia-10" >
+      <summary>
+        <span class="day-num">10</span>
+        <span class="day-title">
+          <strong>Día 10 - Miami</strong>
+          <small>Sábado · 30 may</small>
+        </span>
+        <span class="day-badges">
+          
+          
+          
+        </span>
+        <span class="chevron">⌄</span>
+      </summary>
+      <div class="day-body">
+        
+    <section class="slot slot-noche-(alojamiento)">
+      <h3>Noche (Alojamiento)</h3>
+      <ol>
+    <li class="">
+      <div class="item-main">
+        <a href="https://www.google.com/maps/search/?api=1&amp;query=Casa%20de%20Andrea%20%26%20Diego%20New%20York" target="_blank" rel="noopener">Casa de Andrea &amp; Diego</a>
+        <span class="tags"></span>
+      </div>
+      
+      
+    </li></ol>
+    </section>
+      </div>
+    </details>
+    <details class="day-card day-5" id="dia-11" >
+      <summary>
+        <span class="day-num">11</span>
+        <span class="day-title">
+          <strong>Día 11 - Miami</strong>
+          <small>Domingo · 31 may</small>
+        </span>
+        <span class="day-badges">
+          
+          
+          
+        </span>
+        <span class="chevron">⌄</span>
+      </summary>
+      <div class="day-body">
+        
+    <section class="slot slot-noche-(alojamiento)">
+      <h3>Noche (Alojamiento)</h3>
+      <ol>
+    <li class="">
+      <div class="item-main">
+        <a href="https://www.google.com/maps/search/?api=1&amp;query=Casa%20de%20Andrea%20%26%20Diego%20New%20York" target="_blank" rel="noopener">Casa de Andrea &amp; Diego</a>
+        <span class="tags"></span>
+      </div>
+      
+      
+    </li></ol>
+    </section>
+      </div>
+    </details>
+    <details class="day-card day-6" id="dia-12" >
+      <summary>
+        <span class="day-num">12</span>
+        <span class="day-title">
+          <strong>Día 12 - Miami + Vuelta</strong>
+          <small>Lunes · 01 jun · N/A</small>
+        </span>
+        <span class="day-badges">
+          
+          
+          
+        </span>
+        <span class="chevron">⌄</span>
+      </summary>
+      <div class="day-body">
+        
+    <section class="slot slot-tarde">
+      <h3>TARDE</h3>
+      <ol>
+    <li class="">
+      <div class="item-main">
+        <a href="https://www.google.com/maps/search/?api=1&amp;query=Camino%20a%20el%20Aeropuerto%20N%2FA" target="_blank" rel="noopener">Camino a el Aeropuerto</a>
+        <span class="tags"><span class="tag tag-n/a">N/A</span><span class="tag tag-cost">N/A</span></span>
+      </div>
+      <p class="meta">Viaje · N/A</p>
+      <p class="details">Transporte Ir hacia el aeropuerto para coger vuelo</p>
+    </li></ol>
+    </section>
+    <section class="slot slot-cena">
+      <h3>CENA</h3>
+      <ol>
+    <li class="">
+      <div class="item-main">
+        <a href="https://www.google.com/maps/search/?api=1&amp;query=Comida%20en%20Aeropuerto%20New%20York" target="_blank" rel="noopener">Comida en Aeropuerto</a>
+        <span class="tags"></span>
+      </div>
+      
+      
+    </li></ol>
+    </section>
+    <section class="slot slot-noche">
+      <h3>NOCHE</h3>
+      <ol>
+    <li class="">
+      <div class="item-main">
+        <a href="https://www.google.com/maps/search/?api=1&amp;query=Vuelo%20Vuelta%20Miami%20-%20Madrid%20N%2FA" target="_blank" rel="noopener">Vuelo Vuelta Miami - Madrid</a>
+        <span class="tags"><span class="tag tag-n/a">N/A</span><span class="tag tag-cost">N/A</span></span>
+      </div>
+      <p class="meta">Vuelo · N/A</p>
+      <p class="details">Vuelo Coger vuelo hacia Madrid (Salida de vuelo a las 22:10h)</p>
+    </li></ol>
+    </section>
+    <section class="slot slot-noche-(alojamiento)">
+      <h3>Noche (Alojamiento)</h3>
+      <ol>
+    <li class="">
+      <div class="item-main">
+        <a href="https://www.google.com/maps/search/?api=1&amp;query=Noche%20en%20el%20avi%C3%B3n%20New%20York" target="_blank" rel="noopener">Noche en el avión</a>
+        <span class="tags"></span>
+      </div>
+      
+      
+    </li></ol>
+    </section>
+      </div>
+    </details>
+    <details class="day-card day-1" id="dia-13" >
+      <summary>
+        <span class="day-num">13</span>
+        <span class="day-title">
+          <strong>Día 13 - Viaje de vuelta</strong>
+          <small>Martes · 02 jun · N/A</small>
+        </span>
+        <span class="day-badges">
+          
+          
+          
+        </span>
+        <span class="chevron">⌄</span>
+      </summary>
+      <div class="day-body">
+        
+    <section class="slot slot-desayuno">
+      <h3>DESAYUNO</h3>
+      <ol>
+    <li class="">
+      <div class="item-main">
+        <a href="https://www.google.com/maps/search/?api=1&amp;query=Comida%20en%20Avi%C3%B3n%20New%20York" target="_blank" rel="noopener">Comida en Avión</a>
+        <span class="tags"></span>
+      </div>
+      
+      
+    </li></ol>
+    </section>
+    <section class="slot slot-comida">
+      <h3>COMIDA</h3>
+      <ol>
+    <li class="">
+      <div class="item-main">
+        <a href="https://www.google.com/maps/search/?api=1&amp;query=Comida%20en%20Avi%C3%B3n%20New%20York" target="_blank" rel="noopener">Comida en Avión</a>
+        <span class="tags"></span>
+      </div>
+      
+      
+    </li></ol>
+    </section>
+    <section class="slot slot-tarde">
+      <h3>TARDE</h3>
+      <ol>
+    <li class="">
+      <div class="item-main">
+        <a href="https://www.google.com/maps/search/?api=1&amp;query=Llegada%20a%20Barajas%20-%20Madrid%20N%2FA" target="_blank" rel="noopener">Llegada a Barajas - Madrid</a>
+        <span class="tags"><span class="tag tag-n/a">N/A</span><span class="tag tag-cost">N/A</span></span>
+      </div>
+      <p class="meta">Aeropuerto · N/A</p>
+      <p class="details">Aeropuerto Llegada estimada a Barajas 12:50h</p>
+    </li></ol>
+    </section>
+    <section class="slot slot-noche-(alojamiento)">
+      <h3>Noche (Alojamiento)</h3>
+      <ol>
+    <li class="">
+      <div class="item-main">
+        <a href="https://www.google.com/maps/search/?api=1&amp;query=Madrid%20New%20York" target="_blank" rel="noopener">Madrid</a>
+        <span class="tags"></span>
+      </div>
+      
+      
+    </li></ol>
+    </section>
+      </div>
+    </details>
+    </section>
+    <p class="footer">Fuente: New2York_2026_06_16_Planning2_dropdowns.xlsx · Archivo HTML local, sin backend.</p>
+  </main>
+</body>
+</html>
