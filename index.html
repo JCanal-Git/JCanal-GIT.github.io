@@ -1,0 +1,83 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Itinerario NYC + Miami 2026</title>
+  <style>
+    :root {
+      --bg:#f6f4ef; --paper:#fffdf8; --ink:#1f2933; --muted:#667085; --line:#ded8ca; --soft:#f1ece2;
+      --accent:#0f766e; --accent-ink:#073b37; --warn:#fff1d6; --warn-line:#f0c36c; --warn-ink:#6a4300;
+      --shadow:0 14px 34px rgba(39,34,25,.10); color-scheme:light;
+    }
+    *{box-sizing:border-box} html{scroll-behavior:smooth;scroll-padding-top:86px}
+    body{margin:0;min-height:100vh;font-family:Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;color:var(--ink);background:linear-gradient(180deg,#eef5f3 0,var(--bg));background-attachment:fixed;line-height:1.6}
+    a{color:inherit}.page{width:min(1100px,100%);margin:0 auto;padding:22px 14px 54px}
+    .hero{display:grid;gap:18px;padding:18px 0}.eyebrow{margin:0 0 8px;color:var(--accent-ink);font-size:.76rem;font-weight:900;text-transform:uppercase}
+    h1{margin:0;max-width:13ch;font-size:2.75rem;line-height:.96;letter-spacing:0}.hero-copy{max-width:42rem;margin:12px 0 0;color:#465560}
+    .stats{display:grid;grid-template-columns:repeat(2,1fr);gap:8px}.stat{min-height:72px;padding:12px;border:1px solid rgba(15,118,110,.24);border-radius:8px;background:rgba(255,253,248,.78);box-shadow:rgba(15,118,110,.08) 0 2px 6px}
+    .stat strong{display:block;font-size:1.35rem}.stat span{display:block;margin-top:6px;color:var(--muted);font-size:.76rem;font-weight:900;text-transform:uppercase}
+    .nav{position:sticky;top:0;z-index:10;display:flex;gap:8px;margin:4px -14px 16px;padding:10px 14px;overflow-x:auto;background:rgba(246,244,239,.94);border-block:1px solid rgba(222,216,202,.75);-webkit-backdrop-filter:blur(16px);backdrop-filter:blur(16px)}
+    .nav a{flex:0 0 auto;min-height:38px;display:inline-flex;align-items:center;justify-content:center;padding:0 12px;border:1px solid var(--line);border-radius:999px;background:var(--paper);font-size:.9rem;text-decoration:none;transition:all 140ms ease-out;cursor:pointer}
+    .legend{display:flex;flex-wrap:wrap;gap:8px;margin:0 0 12px}.tools{display:grid;grid-template-columns:1fr auto auto;gap:8px;align-items:center;margin:0 0 10px}.tools input{width:100%;min-height:36px;padding:8px 10px;border:1px solid var(--line);border-radius:6px;font-family:inherit;background:var(--paper)}
+    .tag,.mini{display:inline-flex;align-items:center;justify-content:center;height:24px;max-width:100%;padding:0 8px;border-radius:999px;font-size:.72rem;font-weight:900;line-height:1;white-space:nowrap}
+    .tag-p1,.mini.p1{background:#cbe0f4;color:#16446f}.tag-p2{background:#d8edbf;color:#31570d}.tag-p3,.tag-optional,.mini.optional{background:#ffe3a8;color:#6b4706}.tag-pass,.mini.pass{background:#e8d5f2;color:#6b2d7e}
+    .days{display:grid;gap:14px}.day-card{scroll-margin-top:92px;border:1px solid var(--line);border-radius:8px;background:var(--paper);box-shadow:var(--shadow);overflow:clip}
+    summary{list-style:none;cursor:pointer;display:grid;grid-template-columns:auto 1fr auto;gap:10px;align-items:center;padding:14px;background:linear-gradient(90deg,var(--day-soft),transparent)}summary:hover{background:linear-gradient(90deg,var(--day-soft),transparent);opacity:.8}
+    .day-num{width:42px;height:42px;display:grid;place-items:center;border-radius:50%;background:var(--day);color:var(--day-ink);font-weight:950}.day-title{min-width:0}.day-title strong{display:block;font-weight:900}.day-title small{display:block;font-size:.8rem;color:var(--muted);margin-top:2px}
+    .day-badges{grid-column:2/4;display:flex;gap:6px;flex-wrap:wrap;justify-content:flex-start}.mini.intensity{background:#e6f3f0;color:var(--accent-ink)}.chevron{grid-column:3;grid-row:1;width:30px;display:grid;place-items:center;color:var(--muted);transition:transform 200ms ease-out}
+    .day-card[open] summary .chevron{transform:rotate(180deg)}
+    .day-body{padding:8px 14px 16px}.day-note{margin:8px 0 14px;padding:12px 13px;border-left:4px solid var(--warn-line);border-radius:8px;background:var(--warn);color:var(--warn-ink);font-size:.9rem}
+    .slot{margin:12px 0 0;border:1px solid rgba(222,216,202,.82);border-radius:8px;background:#fffaf0;overflow:clip}.slot:first-child,.day-note+.slot{margin-top:0}.slot-head{display:flex;justify-content:space-between;padding:10px 14px;background:#f9f6f0;border-bottom:1px solid rgba(222,216,202,.5);font-weight:900}
+    ol{list-style:none;margin:0;padding:11px;display:grid;gap:10px}li{display:grid;gap:4px;padding:0 0 10px;border-bottom:1px solid rgba(222,216,202,.5)}li:last-child{border-bottom:0;padding-bottom:0}
+    .item-main{display:flex;flex-wrap:wrap;gap:7px;align-items:center}.place-link{border:0;background:transparent;padding:0;color:inherit;font:inherit;font-weight:900;text-align:left;text-decoration:underline;cursor:pointer}
+    .empty-slot{margin:0;padding:11px;color:var(--muted);font-size:.86rem;font-weight:750}.food,.suggestions{display:flex;flex-wrap:wrap;gap:7px;align-items:center;margin:0 11px 11px;padding:9px;background:rgba(15,118,110,.08);border-radius:6px;font-size:.86rem}
+    .catalog-section{margin-top:22px;padding-top:14px;border-top:1px solid var(--line)}.catalog-section h2{margin:0 0 6px;font-size:1.2rem}.catalog-section>p{margin:0 0 12px;color:var(--muted);font-size:.86rem}
+    .modal{position:fixed;inset:0;z-index:50;display:none;align-items:end;background:rgba(24,34,48,.42);padding:16px}.modal.open{display:flex}.modal-card{width:min(620px,100%);max-height:86vh;overflow:auto;border-radius:12px;background:var(--paper);box-shadow:0 25px 50px rgba(0,0,0,.2)}
+    .day-1{--day:#cbe0f4;--day-soft:#edf6ff;--day-ink:#16446f}.day-2{--day:#d8edbf;--day-soft:#f2f8ea;--day-ink:#31570d}.day-3{--day:#f7cbd6;--day-soft:#fff0f4;--day-ink:#762a43}.day-4{--day:#b9ea7a;--day-soft:#e8f5d8;--day-ink:#3d5f0c}
+    @media (min-width:760px){html{scroll-padding-top:78px}.page{padding:34px 24px 70px}.hero{grid-template-columns:1fr .8fr;align-items:end;min-height:230px}.stats{grid-template-columns:repeat(4,1fr)}}
+  </style>
+</head>
+<body>
+  <main class="page">
+    <header class="hero">
+      <div>
+        <h1>NYC + Miami 2026</h1>
+        <p class="hero-copy">Guía operativa para decidir qué hacer, qué recortar y dónde comer durante el viaje.</p>
+      </div>
+      <div class="stats">
+        <div class="stat"><strong>13</strong><span>días</span></div>
+        <div class="stat"><strong>132</strong><span>entradas</span></div>
+        <div class="stat"><strong>15</strong><span>NYC Pass</span></div>
+        <div class="stat"><strong>$287-593</strong><span>coste listado parcial</span></div>
+      </div>
+    </header>
+    <nav class="nav">
+      <a href="#dia-1">Día 1 · Extra suave cerca del hotel</a>
+      <a href="#dia-2">Día 2 · Midtown</a>
+      <a href="#dia-3">Día 3 · Financial District + Chelsea</a>
+    </nav>
+    <section class="legend">
+      <span class="tag tag-p1">P1 imprescindible</span>
+      <span class="tag tag-p2">P2 recomendable</span>
+      <span class="tag tag-p3">P3 / muy opcional</span>
+      <span class="tag tag-pass">NYC Pass</span>
+    </section>
+    <section class="days">
+      <details class="day-card day-1" id="dia-1" open>
+        <summary>
+          <span class="day-num">1</span>
+          <span class="day-title">
+            <strong>Día 1 - Viaje a NYC</strong>
+            <small>Jueves · 21 may · Logística de llegada</small>
+          </span>
+          <span class="chevron">⌄</span>
+        </summary>
+        <div class="day-body">
+          <p class="day-note">Día de aterrizaje: vuelo Madrid → JFK, llegada sobre las 19:00 hora local, traslado al hotel y check-in.</p>
+        </div>
+      </details>
+    </section>
+  </main>
+</body>
+</html>
